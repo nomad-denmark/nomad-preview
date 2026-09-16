@@ -1,0 +1,107 @@
+
+.mv {
+	position: relative;
+	* {
+		color: #F5F4EA;
+	}
+	.ratio {
+		padding-top: 100vh;
+		&:after {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			display: block;
+			background-color: rgba(0, 0, 0, 0.25);
+			z-index: 1;
+		}
+	}
+	.text {
+		position: absolute;
+		left: 4rem;
+		bottom: 3rem;
+		z-index: 1;
+		.category {
+			display: block;
+			width: 27rem;
+			line-height: 1.2;
+		}
+		.title {
+			.name {
+				position: relative;
+				font-size: 8.3rem;
+				line-height: 1.1;
+				// text-decoration: underline;
+				&:after {
+					content: '';
+					position: absolute;
+					// top: 0;
+					left: 0;
+					right: 0;
+					bottom: 2.3rem;
+					display: block;
+					width: 100%;
+					height: 2px;
+					background-color: #F5F4EA;
+					vertical-align: baseline;
+					z-index: 1;
+				}
+			}
+			.copy {
+				display: block;
+				line-height: 1.2;
+			}
+		}
+	}
+	h1 {
+		
+	}
+	@media only screen and (max-width: 980px) {
+	}
+}
+
+.concept {
+	border-bottom: 2px solid #000000;
+	@media only screen and (max-width: 980px) {
+		
+	}
+}
+
+.menu {
+	
+	@media only screen and (max-width: 980px) {
+		padding-top: 6rem;
+	}
+}
+
+.commitment {
+	padding-top: 12rem;
+	text-align: center;
+	@media only screen and (max-width: 980px) {
+		padding-top: 8.6rem;
+		
+	}
+}
+
+.shichi_hachi {
+	position: relative;
+	@media only screen and (max-width: 980px) {
+		height: 50rem;
+	}
+}
+
+.recruit {
+	
+	@media only screen and (max-width: 980px) {
+		padding-top: 8.6rem;
+		
+	}
+}
+
+
+
+
+
+

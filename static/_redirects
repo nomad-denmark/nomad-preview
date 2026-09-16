@@ -1,0 +1,4 @@
+/brand/*       /brands/:splat  301
+/for-business  /professionals  301
+/dealer        /dealers        301
+/contact-us    /contact        301

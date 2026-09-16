@@ -1,0 +1,12 @@
+
+
+.env
+/.nuxt/
+/dist/
+/node_modules
+
+.editorconfig
+ngrok
+
+.DS_Store
+*.log
