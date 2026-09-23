@@ -64,9 +64,9 @@ export default {
 	},
 	head() {
 		return {
-			title: 'Press Release | NOMAD',
+			title: 'Press Release | NOMAD Preview',
 			meta: [
-				{ hid: 'og:title', property: 'og:title', content: 'Press Release | NOMAD' },
+				{ hid: 'og:title', property: 'og:title', content: 'Press Release | NOMAD Preview' },
 				{ hid: 'og:url', property: 'og:url', content: 'https://preview.nomadinc.jp/press/' },
 			],
 		}

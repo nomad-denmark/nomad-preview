@@ -43,9 +43,9 @@ export default {
 	name: 'ThanksPage',
 	head() {
 		return {
-			title: 'Thanks | NOMAD',
+			title: 'Thanks | NOMAD Preview',
 			meta: [
-				{ hid: 'og:title', property: 'og:title', content: 'Thanks | NOMAD' },
+				{ hid: 'og:title', property: 'og:title', content: 'Thanks | NOMAD Preview' },
 				{ hid: 'og:url', property: 'og:url', content: 'https://preview.nomadinc.jp/contact/thanks/' },
 			],
 		}

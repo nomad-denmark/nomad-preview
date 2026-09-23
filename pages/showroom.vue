@@ -138,7 +138,7 @@
 						<span class="heading">Concept</span>
 						<div class="grid_vw_3">
 							<h2 class="">{{ showroom.name }}</h2>
-							<p class="introduction">{{ showroom.introduction }}</p>
+							<p class="introduction">{{ showroom.content.rendered }}</p>
 							<div class="artist_wrap grid_vw_1">
 								<div class="artist flex flex-start align-center" v-for="artist in showroom.artists">
 									<span class="">{{ artist.label }}</span>
@@ -203,7 +203,7 @@ export default {
 		return {
 			title: 'Showroom',
 			meta: [
-				{ hid: 'og:title', property: 'og:title', content: 'Showroom | NOMAD' },
+				{ hid: 'og:title', property: 'og:title', content: 'Showroom | NOMAD Preview' },
 				{ hid: 'og:url', property: 'og:url', content: 'https://preview.nomadinc.jp/showroom/' },
 			],
 		}

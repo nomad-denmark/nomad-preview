@@ -111,9 +111,9 @@ export default {
 	},
 	head() {
 		return {
-			title: this.press.title + ' | NOMAD',
+			title: this.press.title + ' | NOMAD Preview',
 			meta: [
-				{ hid: 'og:title', property: 'og:title', content: this.press.title + ' | NOMAD' },
+				{ hid: 'og:title', property: 'og:title', content: this.press.title + ' | NOMAD Preview' },
 				{ hid: 'og:url', property: 'og:url', content: 'https://preview.nomadinc.jp/press/' + this.press.slug },
 				{ hid: 'og:image', property: 'og:image', content: this.press._embedded['wp:featuredmedia'] ? this.press._embedded['wp:featuredmedia'][0].source_url : 'https://preview.nomadinc.jp/no_image.jpg' },
 				{ hid: 'og:description', property: 'og:description', content: this.press.description },

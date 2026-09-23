@@ -5,12 +5,12 @@
 			<div class="wrap flex">
 				<div class="title_wrap">
 					<span class="title">{{ data.title.rendered }}</span>
-					<span v-if="!isIndex" class="category">{{ data._embedded['wp:term'][0][0].name }}</span>
+					<span v-if="!isIndex" class="category">{{ data._embedded['wp:term'][0]?.[0]?.name }}</span>
 				</div>
 				<p class="description">{{ data.acf.description }}</p>
-				<div v-if="data._embedded['acf:post']" class="brand_wrap flex">
+				<div v-if="data.acf.brands_source.formatted_value" class="brand_wrap flex">
 					<span class="heading">Brands:</span>
-					<span class="brand_list">{{ data._embedded['acf:post'][0].title.rendered + (data._embedded['acf:post'][1] ? ' / ' + data._embedded['acf:post'][1].title.rendered : '') + (data._embedded['acf:post'][2] ? ' / and more...' : '') }}</span>
+					<span class="brand_list">{{ data.acf.brands_source.formatted_value[0].post_title + (data.acf.brands_source.formatted_value[1] ? ' / ' + data.acf.brands_source.formatted_value[1].post_title : '') + (data.acf.brands_source.formatted_value[2] ? ' / and more...' : '') }}</span>
 				</div>
 			</div>
 		</div>
@@ -82,6 +82,10 @@ export default {
 			width: 65%;
 			.ratio {
 				padding-top: 100%;
+				background-image: url('/no_image.jpg');
+				background-position: center;
+				background-size: cover;
+				background-repeat: no-repeat;
 				img {
 					transition: transform 0.4s ease;
 				}

@@ -33,7 +33,7 @@
 			</div>
 			<ul class="news_list grid_vw_4">
 				<li v-for="article in newsList">
-					<NewsItem v-if="article._embedded['wp:term'][0][0].name != 'Press'" class="" :data="article"></NewsItem>
+					<NewsItem v-if="article._embedded['wp:term'][0]?.[0]?.name != 'Press'" class="" :data="article"></NewsItem>
 					<PressItem v-else class="" :data="article"></PressItem>
 				</li>
 			</ul>
@@ -67,9 +67,9 @@ export default {
 	},
 	head() {
 		return {
-			title: 'News | NOMAD',
+			title: 'News | NOMAD Preview',
 			meta: [
-				{ hid: 'og:title', property: 'og:title', content: 'News | NOMAD' },
+				{ hid: 'og:title', property: 'og:title', content: 'News | NOMAD Preview' },
 				{ hid: 'og:url', property: 'og:url', content: 'https://preview.nomadinc.jp/news/' },
 			],
 		}

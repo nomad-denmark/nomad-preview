@@ -6,7 +6,7 @@
 			<div class="title_wrap flex">
 				<h1 class="grid_vw_4">
 					<div class="heading_wrap grid_vw_1 flex">
-						<img alt="" :src="caseStudy.thumbnail">
+						<img alt="" :src="caseStudy._embedded['wp:featuredmedia'][0].source_url">
 						<span class="heading">(Case Study)</span>
 					</div>
 					{{ caseStudy.title }}
@@ -107,11 +107,11 @@ export default {
 	},
 	head() {
 		return {
-			title: this.caseStudy.title + ' | NOMAD',
+			title: this.caseStudy.title + ' | NOMAD Preview',
 			meta: [
-				{ hid: 'og:title', property: 'og:title', content: this.caseStudy.title + ' | NOMAD' },
+				{ hid: 'og:title', property: 'og:title', content: this.caseStudy.title + ' | NOMAD Preview' },
 				{ hid: 'og:url', property: 'og:url', content: 'https://preview.nomadinc.jp/case/' + this.caseStudy.slug },
-				{ hid: 'og:image', property: 'og:image', content: this.caseStudy.thumbnail ? this.caseStudy.thumbnail.src : 'https://preview.nomadinc.jp/no_image.jpg' },
+				{ hid: 'og:image', property: 'og:image', content: this.caseStudy._embedded['wp:featuredmedia'][0] ? this.caseStudy._embedded['wp:featuredmedia'][0].source_url : 'https://preview.nomadinc.jp/no_image.jpg' },
 				{ hid: 'og:description', property: 'og:description', content: this.caseStudy.description },
 			],
 		}

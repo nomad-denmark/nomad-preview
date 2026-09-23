@@ -104,9 +104,9 @@ export default {
 	},
 	head() {
 		return {
-			title: 'Catalog Download | NOMAD',
+			title: 'Catalog Download | NOMAD Preview',
 			meta: [
-				{ hid: 'og:title', property: 'og:title', content: 'Catalog Download | NOMAD' },
+				{ hid: 'og:title', property: 'og:title', content: 'Catalog Download | NOMAD Preview' },
 				{ hid: 'og:url', property: 'og:url', content: 'https://preview.nomadinc.jp/catalog/' },
 			],
 		}

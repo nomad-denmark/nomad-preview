@@ -33,7 +33,7 @@
 							<div class="text_wrap flex">
 								<div class="title grid_vw_1">
 									<span class="name">{{ caseStudy.title.rendered }}</span>
-									<span class="category">{{ caseStudy._embedded['wp:term'][0][0].name }}</span>
+									<span class="category">{{ caseStudy._embedded['wp:term'][0]?.[0]?.name }}</span>
 								</div>
 								<div class="index flex grid_vw_1">
 									<span class="">Case</span>
@@ -130,10 +130,10 @@ export default {
 	},
 	head() {
 		return {
-			title: 'NOMAD For Professionals | NOMAD',
+			title: 'NOMAD For Professionals | NOMAD Preview',
 			meta: [
-				{ hid: 'og:title', property: 'og:title', content: 'NOMAD For Professionals | NOMAD' },
-				{ hid: 'og:url', property: 'og:url', content: 'https://nomadinc.jp/professionals/' },
+				{ hid: 'og:title', property: 'og:title', content: 'NOMAD For Professionals | NOMAD Preview' },
+				{ hid: 'og:url', property: 'og:url', content: 'https://preview.nomadinc.jp/professionals/' },
 			],
 		}
 	},

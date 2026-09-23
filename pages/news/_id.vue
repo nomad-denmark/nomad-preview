@@ -112,9 +112,9 @@ export default {
 	},
 	head() {
 		return {
-			title: this.news.title.rendered + ' | NOMAD',
+			title: this.news.title.rendered + ' | NOMAD Preview',
 			meta: [
-				{ hid: 'og:title', property: 'og:title', content: this.news.title.rendered + ' | NOMAD' },
+				{ hid: 'og:title', property: 'og:title', content: this.news.title.rendered + ' | NOMAD Preview' },
 				{ hid: 'og:url', property: 'og:url', content: 'https://preview.nomadinc.jp/news/' + this.news.slug },
 				{ hid: 'og:image', property: 'og:image', content: this.news._embedded['wp:featuredmedia'] ? this.news._embedded['wp:featuredmedia'][0].source_url : 'https://preview.nomadinc.jp/no_image.jpg' },
 				{ hid: 'og:description', property: 'og:description', content: this.news.introduction },

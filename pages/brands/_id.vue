@@ -197,9 +197,9 @@ export default {
 	},
 	head() {
 		return {
-			title: this.brand.title.rendered + ' | NOMAD',
+			title: this.brand.title.rendered + ' | NOMAD Preview',
 			meta: [
-				{ hid: 'og:title', property: 'og:title', content: this.brand.title.rendered + ' | NOMAD' },
+				{ hid: 'og:title', property: 'og:title', content: this.brand.title.rendered + ' | NOMAD Preview' },
 				{ hid: 'og:url', property: 'og:url', content: 'https://preview.nomadinc.jp/brands/' + this.brand.slug },
 				{ hid: 'og:image', property: 'og:image', content: this.brand.acf.thumbnail_horizontal ? this.brand.acf.thumbnail_horizontal : 'https://preview.nomadinc.jp/no_image.jpg' },
 				{ hid: 'og:description', property: 'og:description', content: 'NOMADが取り扱う' + this.brand.title.rendered + 'のブランド概要や注目の製品、ストーリーなどを紹介するページです。最新のカタログやプライスリストもダウンロード可能です。' },

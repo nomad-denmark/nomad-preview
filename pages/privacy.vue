@@ -124,9 +124,9 @@ export default {
 	name: 'PrivacyPolicyPage',
 	head() {
 		return {
-			title: 'Privacy Policy | NOMAD',
+			title: 'Privacy Policy | NOMAD Preview',
 			meta: [
-				{ hid: 'og:title', property: 'og:title', content: 'Privacy Policy | NOMAD' },
+				{ hid: 'og:title', property: 'og:title', content: 'Privacy Policy | NOMAD Preview' },
 				{ hid: 'og:url', property: 'og:url', content: 'https://preview.nomadinc.jp/privacy/' },
 			],
 		}

@@ -65,7 +65,7 @@
 								<span class="name grid_vw_1">{{ dealer.title.rendered }}</span>
 								<span class="address grid_vw_1">{{ dealer.acf.address }}</span>
 								<div class="link_wrap grid_vw_1">
-									<a class="icon outside underline" target="_blank" :href="dealer.acf.link">Website<i></i></a>
+									<a v-if="dealer.acf.link" class="icon outside underline" target="_blank" :href="dealer.acf.link">Website<i></i></a>
 								</div>
 							</li>
 						</ul>
@@ -80,7 +80,7 @@
 								<span class="name grid_vw_1">{{ dealer.title.rendered }}</span>
 								<span class="address grid_vw_1">{{ dealer.acf.address }}</span>
 								<div class="link_wrap grid_vw_1">
-									<a class="icon outside underline" target="_blank" :href="dealer.acf.link">Website<i></i></a>
+									<a v-if="dealer.acf.link" class="icon outside underline" target="_blank" :href="dealer.acf.link">Website<i></i></a>
 								</div>
 							</li>
 						</ul>
@@ -95,7 +95,7 @@
 								<span class="name grid_vw_1">{{ dealer.title.rendered }}</span>
 								<span class="address grid_vw_1">{{ dealer.acf.address }}</span>
 								<div class="link_wrap grid_vw_1">
-									<a class="icon outside underline" target="_blank" :href="dealer.acf.link">Website<i></i></a>
+									<a v-if="dealer.acf.link" class="icon outside underline" target="_blank" :href="dealer.acf.link">Website<i></i></a>
 								</div>
 							</li>
 						</ul>
@@ -110,7 +110,7 @@
 								<span class="name grid_vw_1">{{ dealer.title.rendered }}</span>
 								<span class="address grid_vw_1">{{ dealer.acf.address }}</span>
 								<div class="link_wrap grid_vw_1">
-									<a class="icon outside underline" target="_blank" :href="dealer.acf.link">Website<i></i></a>
+									<a v-if="dealer.acf.link" class="icon outside underline" target="_blank" :href="dealer.acf.link">Website<i></i></a>
 								</div>
 							</li>
 						</ul>
@@ -125,7 +125,7 @@
 								<span class="name grid_vw_1">{{ dealer.title.rendered }}</span>
 								<span class="address grid_vw_1">{{ dealer.acf.address }}</span>
 								<div class="link_wrap grid_vw_1">
-									<a class="icon outside underline" target="_blank" :href="dealer.acf.link">Website<i></i></a>
+									<a v-if="dealer.acf.link" class="icon outside underline" target="_blank" :href="dealer.acf.link">Website<i></i></a>
 								</div>
 							</li>
 						</ul>
@@ -140,7 +140,7 @@
 								<span class="name grid_vw_1">{{ dealer.title.rendered }}</span>
 								<span class="address grid_vw_1">{{ dealer.acf.address }}</span>
 								<div class="link_wrap grid_vw_1">
-									<a class="icon outside underline" target="_blank" :href="dealer.acf.link">Website<i></i></a>
+									<a v-if="dealer.acf.link" class="icon outside underline" target="_blank" :href="dealer.acf.link">Website<i></i></a>
 								</div>
 							</li>
 						</ul>
@@ -155,7 +155,7 @@
 								<span class="name grid_vw_1">{{ dealer.title.rendered }}</span>
 								<span class="address grid_vw_1">{{ dealer.acf.address }}</span>
 								<div class="link_wrap grid_vw_1">
-									<a class="icon outside underline" target="_blank" :href="dealer.acf.link">Website<i></i></a>
+									<a v-if="dealer.acf.link" class="icon outside underline" target="_blank" :href="dealer.acf.link">Website<i></i></a>
 								</div>
 							</li>
 						</ul>
@@ -170,7 +170,7 @@
 								<span class="name grid_vw_1">{{ dealer.title.rendered }}</span>
 								<span class="address grid_vw_1">{{ dealer.acf.address }}</span>
 								<div class="link_wrap grid_vw_1">
-									<a class="icon outside underline" target="_blank" :href="dealer.acf.link">Website<i></i></a>
+									<a v-if="dealer.acf.link" class="icon outside underline" target="_blank" :href="dealer.acf.link">Website<i></i></a>
 								</div>
 							</li>
 						</ul>
@@ -185,7 +185,7 @@
 								<span class="name grid_vw_1">{{ dealer.title.rendered }}</span>
 								<span class="address grid_vw_1">{{ dealer.acf.address }}</span>
 								<div class="link_wrap grid_vw_1">
-									<a class="icon outside underline" target="_blank" :href="dealer.acf.link">Website<i></i></a>
+									<a v-if="dealer.acf.link" class="icon outside underline" target="_blank" :href="dealer.acf.link">Website<i></i></a>
 								</div>
 							</li>
 						</ul>
@@ -288,9 +288,9 @@ export default {
 	},
 	head() {
 		return {
-			title: 'Dealers | NOMAD',
+			title: 'Dealers | NOMAD Preview',
 			meta: [
-				{ hid: 'og:title', property: 'og:title', content: 'Dealers | NOMAD' },
+				{ hid: 'og:title', property: 'og:title', content: 'Dealers | NOMAD Preview' },
 				{ hid: 'og:url', property: 'og:url', content: 'https://preview.nomadinc.jp/dealers/' },
 			],
 		}

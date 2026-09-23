@@ -309,9 +309,9 @@ export default {
 	},
 	head() {
 		return {
-			title: 'About | NOMAD',
+			title: 'About | NOMAD Preview',
 			meta: [
-				{ hid: 'og:title', property: 'og:title', content: 'About | NOMAD' },
+				{ hid: 'og:title', property: 'og:title', content: 'About | NOMAD Preview' },
 				{ hid: 'og:url', property: 'og:url', content: 'https://preview.nomadinc.jp/about/' },
 			],
 		}

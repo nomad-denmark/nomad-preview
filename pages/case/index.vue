@@ -95,9 +95,9 @@ export default {
 	},
 	head() {
 		return {
-			title: 'Case Study | NOMAD',
+			title: 'Case Study | NOMAD Preview',
 			meta: [
-				{ hid: 'og:title', property: 'og:title', content: 'Case Study | NOMAD' },
+				{ hid: 'og:title', property: 'og:title', content: 'Case Study | NOMAD Preview' },
 				{ hid: 'og:url', property: 'og:url', content: 'https://preview.nomadinc.jp/case/' },
 			],
 		}

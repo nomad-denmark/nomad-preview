@@ -103,9 +103,9 @@ export default {
 	},
 	head() {
 		return {
-			title: this.journal.title + ' | NOMAD',
+			title: this.journal.title + ' | NOMAD Preview',
 			meta: [
-				{ hid: 'og:title', property: 'og:title', content: this.journal.title + ' | NOMAD' },
+				{ hid: 'og:title', property: 'og:title', content: this.journal.title + ' | NOMAD Preview' },
 				{ hid: 'og:url', property: 'og:url', content: 'https://preview.nomadinc.jp/journal/' + this.journal.slug },
 				{ hid: 'og:image', property: 'og:image', content: this.journal.thumbnail ? this.journal.thumbnail.src : 'https://preview.nomadinc.jp/no_image.jpg' },
 				{ hid: 'og:description', property: 'og:description', content: this.journal.description },

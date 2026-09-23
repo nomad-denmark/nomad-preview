@@ -132,9 +132,9 @@ export default {
 	},
 	head() {
 		return {
-			title: 'Brands | NOMAD',
+			title: 'Brands | NOMAD Preview',
 			meta: [
-				{ hid: 'og:title', property: 'og:title', content: 'Brands | NOMAD' },
+				{ hid: 'og:title', property: 'og:title', content: 'Brands | NOMAD Preview' },
 				{ hid: 'og:url', property: 'og:url', content: 'https://preview.nomadinc.jp/brands/' },
 			],
 		}

@@ -113,9 +113,11 @@
 							</ValidationProvider>
 						</div>
 						<div class="submit_wrap flex align-center">
-							<div class="google_wrap">
+							<div ref="turnstile"></div>
+							<!-- <div class="cf-turnstile" data-sitekey="0x4AAAAAAExICQ_jZwdBe7-Z" data-callback="onTurnstileSuccess" data-error-callback="onTurnstileError"></div> -->
+							<!-- <div class="google_wrap">
 								<p class="attention">This site is protected by reCAPTCHA and the Google <a class="underline" target="_blank" href="https://policies.google.com/privacy">Privacy Policy</a> and <a class="underline" target="_blank" href="https://policies.google.com/terms">Terms of Service</a> apply.</p>
-							</div>
+							</div> -->
 							<div class="wrap flex align-center">
 								<ValidationProvider class="acceptance_wrap" tag="div" v-slot="{ errors }" name="チェックボックス" :rules="{ required: { allowFalse: false } }">
 									<div class="flex flex-start align-center">
@@ -147,9 +149,9 @@ export default {
 	name: 'ContactPage',
 	head() {
 		return {
-			title: 'Contact | NOMAD',
+			title: 'Contact | NOMAD Preview',
 			meta: [
-				{ hid: 'og:title', property: 'og:title', content: 'Contact | NOMAD' },
+				{ hid: 'og:title', property: 'og:title', content: 'Contact | NOMAD Preview' },
 				{ hid: 'og:url', property: 'og:url', content: 'https://preview.nomadinc.jp/contact/' },
 			],
 			script: [
@@ -169,6 +171,7 @@ export default {
 			content: '',
 			acceptance: '',
 			recaptchaToken: '',
+			turnstileToken: '',
 		}
 	},
 	mounted() {
@@ -181,10 +184,40 @@ export default {
 		// 	});
 		// });
 
+		this.renderTurnstile()
+
 	},
 	computed: {
 	},
 	methods: {
+		renderTurnstile() {
+			if (!window.turnstile) {
+				setTimeout(() => this.renderTurnstile(), 100)
+				return
+			}
+
+			if (this.turnstileWidgetId !== null) {
+				return
+			}
+
+			this.turnstileWidgetId = window.turnstile.render(
+				this.$refs.turnstile, {
+					sitekey: '0x4AAAAAAExICQ_jZwdBe7-Z',
+					callback: (token) => {
+						this.turnstileToken = token
+					},
+					'error-callback': (error) => {
+						// console.error('Turnstile error:', error)
+					}
+				}
+			)
+		},
+		onTurnstileSuccess(token) {
+			this.turnstileToken = token
+		},
+		onTurnstileError(error) {
+			// console.log('error:', error)
+		},
 		setSubject: function() {
 
 			const select = document.getElementById('subject')
@@ -203,6 +236,7 @@ export default {
 				}
 
 				const formData = new FormData()
+				formData.append('_wpcf7_unit_tag', 'wpcf7-f6-o1')
 				formData.append("mailto", mailTo)
 				formData.append("subject", this.subject)
 				formData.append("full-name", this.name)
@@ -210,10 +244,14 @@ export default {
 				formData.append("company", this.company)
 				formData.append("mail", this.email)
 				formData.append("message", this.content)
+				formData.append("privacy", this.acceptance)
+				formData.append("_wpcf7_turnstile_response", this.turnstileToken)
+
+				// const formId  = 0f0e3b0
 
 				try {
 					const response = await fetch(
-						"https://wordpress.nomadinc.jp/wp-json/contact-form-7/v1/contact-forms/0f0e3b0/feedback",
+						"https://wordpress.nomadinc.jp/wp-json/contact-form-7/v1/contact-forms/6/feedback",
 						{
 							method: "POST",
 							body: formData,
