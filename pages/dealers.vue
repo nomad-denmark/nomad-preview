@@ -2,195 +2,55 @@
 
 	<main class="l4 r4">
 
-		<h1 class="name mv grid_vw_4 flex">Dealers<span class="date">Updated {{ $dateFns.format(updatedDate, 'yyyy.MM.dd') }}</span></h1>
+		<h1 class="name mv grid_vw_4 flex">
+			Dealers
+			<span class="date">Updated {{ $dateFns.format(updatedDate, 'yyyy.MM.dd') }}</span>
+		</h1>
 
 		<div class="wrap flex">
-			<div class="filter sticky grid_vw_1" data-lenis-prevent>
-				<span class="heading">Area</span>
-				<div class="area_wrap" data-lenis-prevent>
-					<ul class="area_list flex-start align-center">
-						<li class="selected">
-							<button class="selected" @click="scrollToTarget('area1')">北海道・東北</button>
-						</li>
-						<li>
-							<button class="" @click="scrollToTarget('area2')">関東</button>
-						</li>
-						<li>
-							<button class="" @click="scrollToTarget('area3')">甲信越</button>
-						</li>
-						<li>
-							<button class="" @click="scrollToTarget('area4')">東海・北陸</button>
-						</li>
-						<li>
-							<button class="" @click="scrollToTarget('area5')">近畿</button>
-						</li>
-						<li>
-							<button class="" @click="scrollToTarget('area6')">中国</button>
-						</li>
-						<li>
-							<button class="" @click="scrollToTarget('area7')">四国</button>
-						</li>
-						<li>
-							<button class="" @click="scrollToTarget('area8')">九州・沖縄</button>
-						</li>
-						<li>
-							<button class="" @click="scrollToTarget('online')">オンラインショップ</button>
-						</li>
-					</ul>
-				</div>
+			<div class="information sticky grid_vw_1" data-lenis-prevent>
+				<!-- <span class="heading">Sharing Lifestyle with Us</span> -->
+				<span class="num">{{ dealerNum }} Dealers</span>
+				<!-- <span class="date">Updated {{ $dateFns.format(updatedDate, 'yyyy.MM.dd') }}</span> -->
 			</div>
 			<div class="list_wrap grid_vw_4">
-				<div class="list_header flex">
-					<div class="brand_wrap flex">
-						<button class="toggle filter_button" :class="brandListStatus" @click="showBrandList">{{ brand }}<i></i></button>
+				<div class="list_header flex flex-start">
+					<span class="heading">Filter :</span>
+					<div class="brand_wrap filter_wrap flex">
+						<button class="toggle filter_button" :class="brandListStatus" @click="showBrandList">{{ brandName }}<i></i></button>
 						<ul class="brand_list" :class="brandListStatus"  data-lenis-prevent>
 							<li>
-								<button class="brand_filter" :class="{ 'selected': brand == 'All Brands' }" @click="selectBrand('All Brands')">All Brands</button>
+								<button class="brand_filter" :class="{ 'selected': brandName == 'All Brands' }" @click="selectBrand('All Brands')">All Brands</button>
 							</li>
-							<li v-for="brandName in brandList">
-								<button class="brand_filter" :class="{ 'selected': brand == brandName }" @click="selectBrand(brandName)">{{ brandName }}</button>
+							<li v-for="brand in brandList">
+								<button class="brand_filter" :class="{ 'selected': brandName == brand }" @click="selectBrand(brand)">{{ brand }}</button>
 							</li>
 						</ul>
 					</div>
-					<span class="num">{{ dealerNum }} Dealers</span>
+					<div class="area_wrap filter_wrap flex" data-lenis-prevent>
+						<button class="toggle filter_button" :class="areaListStatus" @click="showAreaList">{{ areaName }}<i></i></button>
+						<ul class="area_list" :class="areaListStatus"  data-lenis-prevent>
+							<li class="">
+								<button class="area_filter" :class="{ 'selected': areaName == 'すべて' }" @click="selectArea('All Area')">All Area</button>
+							</li>
+							<li v-for="area in areaList">
+								<button class="area_filter" :class="{ 'selected': areaName == area }" @click="selectArea(area.name)">{{ area.name }}</button>
+							</li>
+						</ul>
+					</div>
+					<!-- <span class="num grid_vw_1">{{ dealerNum }} Dealers</span> -->
 				</div>
-				<ul class="area_list grid_vw_4">
-					<li id="area1" class="flex grid_vw_4">
-						<div class="area_wrap flex" :class="{ 'zero': dealerListArea1.length == 0 }">
-							<h3>北海道・東北</h3>
-							<span class="num">({{ dealerListArea1.length }})</span>
+				<div class="dealer_list grid_vw_4 flex">
+					<p v-if="dealerList.length == 0" class="zero">No Dealers matched current filters.</p>
+					<div v-else class="dealer grid_vw_2" v-for="dealer in dealerList">
+						<span class="name grid_vw_1">{{ dealer.title.rendered }}</span>
+						<div class="brand_wrap flex">
+							<span>Brands:</span>
+							<p class="brand_list grid_vw_1">{{ dealer._embedded['acf:post'].map(data => data.title ? data.title.rendered : '').join(', ') }}</p>
 						</div>
-						<ul class="dealer_list flex grid_vw_3">
-							<li class="flex grid_vw_3" v-for="dealer in dealerListArea1">
-								<span class="name grid_vw_1">{{ dealer.title.rendered }}</span>
-								<span class="address grid_vw_1">{{ dealer.acf.address }}</span>
-								<div class="link_wrap grid_vw_1">
-									<a v-if="dealer.acf.link" class="icon outside underline" target="_blank" :href="dealer.acf.link">Website<i></i></a>
-								</div>
-							</li>
-						</ul>
-					</li>
-					<li id="area2" class="flex grid_vw_4">
-						<div class="area_wrap flex" :class="{ 'zero': dealerListArea2.length == 0 }">
-							<h3>関東</h3>
-							<span class="num">({{ dealerListArea2.length }})</span>
-						</div>
-						<ul class="dealer_list flex grid_vw_3">
-							<li class="flex grid_vw_3" v-for="dealer in dealerListArea2">
-								<span class="name grid_vw_1">{{ dealer.title.rendered }}</span>
-								<span class="address grid_vw_1">{{ dealer.acf.address }}</span>
-								<div class="link_wrap grid_vw_1">
-									<a v-if="dealer.acf.link" class="icon outside underline" target="_blank" :href="dealer.acf.link">Website<i></i></a>
-								</div>
-							</li>
-						</ul>
-					</li>
-					<li id="area3" class="flex grid_vw_4">
-						<div class="area_wrap flex" :class="{ 'zero': dealerListArea3.length == 0 }">
-							<h3>甲信越</h3>
-							<span class="num">({{ dealerListArea3.length }})</span>
-						</div>
-						<ul class="dealer_list flex grid_vw_3">
-							<li class="flex grid_vw_3" v-for="dealer in dealerListArea3">
-								<span class="name grid_vw_1">{{ dealer.title.rendered }}</span>
-								<span class="address grid_vw_1">{{ dealer.acf.address }}</span>
-								<div class="link_wrap grid_vw_1">
-									<a v-if="dealer.acf.link" class="icon outside underline" target="_blank" :href="dealer.acf.link">Website<i></i></a>
-								</div>
-							</li>
-						</ul>
-					</li>
-					<li id="area4" class="flex grid_vw_4">
-						<div class="area_wrap flex" :class="{ 'zero': dealerListArea4.length == 0 }">
-							<h3>東海・北陸</h3>
-							<span class="num">({{ dealerListArea4.length }})</span>
-						</div>
-						<ul class="dealer_list flex grid_vw_3">
-							<li class="flex grid_vw_3" v-for="dealer in dealerListArea4">
-								<span class="name grid_vw_1">{{ dealer.title.rendered }}</span>
-								<span class="address grid_vw_1">{{ dealer.acf.address }}</span>
-								<div class="link_wrap grid_vw_1">
-									<a v-if="dealer.acf.link" class="icon outside underline" target="_blank" :href="dealer.acf.link">Website<i></i></a>
-								</div>
-							</li>
-						</ul>
-					</li>
-					<li id="area5" class="flex grid_vw_4">
-						<div class="area_wrap flex" :class="{ 'zero': dealerListArea5.length == 0 }">
-							<h3>近畿</h3>
-							<span class="num">({{ dealerListArea5.length }})</span>
-						</div>
-						<ul class="dealer_list flex grid_vw_3">
-							<li class="flex grid_vw_3" v-for="dealer in dealerListArea5">
-								<span class="name grid_vw_1">{{ dealer.title.rendered }}</span>
-								<span class="address grid_vw_1">{{ dealer.acf.address }}</span>
-								<div class="link_wrap grid_vw_1">
-									<a v-if="dealer.acf.link" class="icon outside underline" target="_blank" :href="dealer.acf.link">Website<i></i></a>
-								</div>
-							</li>
-						</ul>
-					</li>
-					<li id="area6" class="flex grid_vw_4">
-						<div class="area_wrap flex" :class="{ 'zero': dealerListArea6.length == 0 }">
-							<h3>中国</h3>
-							<span class="num">({{ dealerListArea6.length }})</span>
-						</div>
-						<ul class="dealer_list flex grid_vw_3">
-							<li class="flex grid_vw_3" v-for="dealer in dealerListArea6">
-								<span class="name grid_vw_1">{{ dealer.title.rendered }}</span>
-								<span class="address grid_vw_1">{{ dealer.acf.address }}</span>
-								<div class="link_wrap grid_vw_1">
-									<a v-if="dealer.acf.link" class="icon outside underline" target="_blank" :href="dealer.acf.link">Website<i></i></a>
-								</div>
-							</li>
-						</ul>
-					</li>
-					<li id="area7" class="flex grid_vw_4">
-						<div class="area_wrap flex" :class="{ 'zero': dealerListArea7.length == 0 }">
-							<h3>四国</h3>
-							<span class="num">({{ dealerListArea7.length }})</span>
-						</div>
-						<ul class="dealer_list flex grid_vw_3">
-							<li class="flex grid_vw_3" v-for="dealer in dealerListArea7">
-								<span class="name grid_vw_1">{{ dealer.title.rendered }}</span>
-								<span class="address grid_vw_1">{{ dealer.acf.address }}</span>
-								<div class="link_wrap grid_vw_1">
-									<a v-if="dealer.acf.link" class="icon outside underline" target="_blank" :href="dealer.acf.link">Website<i></i></a>
-								</div>
-							</li>
-						</ul>
-					</li>
-					<li id="area8" class="flex grid_vw_4">
-						<div class="area_wrap flex" :class="{ 'zero': dealerListArea8.length == 0 }">
-							<h3>九州・沖縄</h3>
-							<span class="num">({{ dealerListArea8.length }})</span>
-						</div>
-						<ul class="dealer_list flex grid_vw_3">
-							<li class="flex grid_vw_3" v-for="dealer in dealerListArea8">
-								<span class="name grid_vw_1">{{ dealer.title.rendered }}</span>
-								<span class="address grid_vw_1">{{ dealer.acf.address }}</span>
-								<div class="link_wrap grid_vw_1">
-									<a v-if="dealer.acf.link" class="icon outside underline" target="_blank" :href="dealer.acf.link">Website<i></i></a>
-								</div>
-							</li>
-						</ul>
-					</li>
-					<li id="online" class="flex grid_vw_4">
-						<div class="area_wrap flex" :class="{ 'zero': dealerListOnline.length == 0 }">
-							<h3>オンラインショップ</h3>
-							<span class="num">({{ dealerListOnline.length }})</span>
-						</div>
-						<ul class="dealer_list flex grid_vw_3">
-							<li class="flex grid_vw_3" v-for="dealer in dealerListOnline">
-								<span class="name grid_vw_1">{{ dealer.title.rendered }}</span>
-								<span class="address grid_vw_1">{{ dealer.acf.address }}</span>
-								<div class="link_wrap grid_vw_1">
-									<a v-if="dealer.acf.link" class="icon outside underline" target="_blank" :href="dealer.acf.link">Website<i></i></a>
-								</div>
-							</li>
-						</ul>
-					</li>
-				</ul>
+						<a v-if="dealer.acf.link" class="link icon outside underline" target="_blank" :href="dealer.acf.link">Website<i></i></a>
+					</div>					
+				</div>
 			</div>
 		</div>
 
@@ -204,83 +64,32 @@ export default {
 	async asyncData({ app, params }) {
 		try {
 			return Promise.all([
-				app.$wordpress.getPosts('dealers', {
+				app.$wordpress.get('dealers', {
 					params: {
-						'area_category': 'hokkaido-tohoku',
+						'posts_per_page': -1,
 						'_embed': true
 					}
 				}),
-				app.$wordpress.getPosts('dealers', {
-					params: {
-						'area_category': 'kanto',
-						'_embed': true
-					}
-				}),
-				app.$wordpress.getPosts('dealers', {
-					params: {
-						'area_category': 'koushinetsu',
-						'_embed': true
-					}
-				}),
-				app.$wordpress.getPosts('dealers', {
-					params: {
-						'area_category': 'tokai-hokuriku',
-						'_embed': true
-					}
-				}),
-				app.$wordpress.getPosts('dealers', {
-					params: {
-						'area_category': 'kinki',
-						'_embed': true
-					}
-				}),
-				app.$wordpress.getPosts('dealers', {
-					params: {
-						'area_category': 'chugoku',
-						'_embed': true
-					}
-				}),
-				app.$wordpress.getPosts('dealers', {
-					params: {
-						'area_category': 'shikoku',
-						'_embed': true
-					}
-				}),
-				app.$wordpress.getPosts('dealers', {
-					params: {
-						'area_category': 'kyushu-okinawa',
-						'_embed': true
-					}
-				}),
-				app.$wordpress.getPosts('dealers', {
-					params: {
-						'area_category': 'online',
-						'_embed': true
-					}
-				}),
-				app.$wordpress.getPosts('dealers_brands', {
+				app.$wordpress.get('dealers_brands', {
 					params: {
 					}
 				}),
-				app.$wordpress.getPosts('dealers', {
+				app.$wordpress.get('area_category', {
+					params: {
+					}
+				}),
+				app.$wordpress.get('dealers', {
 					params: {
 						'posts_per_page': 1,
 					}
 				}),
 			])
 			.then((res) => {
-				const dealerData1 = res[0].data
-				const dealerData2 = res[1].data
-				const dealerData3 = res[2].data
-				const dealerData4 = res[3].data
-				const dealerData5 = res[4].data
-				const dealerData6 = res[5].data
-				const dealerData7 = res[6].data
-				const dealerData8 = res[7].data
-				const dealerDataOnline = res[8].data
-				const brandList = res[9].data
-				const updatedDate = res[10].data[0].date
-				return { dealerData1, dealerData2, dealerData3, dealerData4, dealerData5, dealerData6, dealerData7, dealerData8, dealerDataOnline, brandList, updatedDate }
+				const dealerData = res[0].data
+				const brandList = res[1].data
+				const areaList = res[2].data
+				const updatedDate = res[3].data[0].date
+				return { dealerData, brandList, areaList, updatedDate }
 			})
 		} catch(error) {
 			console.log(error)
@@ -288,86 +97,48 @@ export default {
 	},
 	head() {
 		return {
-			title: 'Dealers | NOMAD Preview',
+			title: 'Dealers | NOMAD',
 			meta: [
-				{ hid: 'og:title', property: 'og:title', content: 'Dealers | NOMAD Preview' },
-				{ hid: 'og:url', property: 'og:url', content: 'https://preview.nomadinc.jp/dealers/' },
+				{ hid: 'og:title', property: 'og:title', content: 'Dealers | NOMAD' },
+				{ hid: 'og:url', property: 'og:url', content: 'https://nomadinc.jp/dealers/' },
 			],
 		}
 	},
 	data() {
 		return {
-			area: '',
-			brand: 'All Brands',
+			areaName: 'All Area',
+			areaListStatus: '',
+			brandName: 'All Brands',
 			brandListStatus: '',
-			// dealerNum: 0,
-			dealersArea1: [],
-			dealersArea2: [],
-			dealersArea3: [],
-			dealersArea4: [],
-			dealersArea5: [],
-			dealersArea6: [],
-			dealersArea7: [],
-			dealersArea8: [],
-			dealersOnline: []
+			dealers: [],
+			dealersOnline: [],
 		}
 	},
 	mounted() {
 
-		this.filter()
+		this.brandFilter()
+		this.areaFilter()
 
 	},
 	computed: {
-		// areaName: function() {
-		// 	return this.area
-		// },
-		// brandName: function() {
-		// 	return this.brand
-		// },
 		dealerNum: function() {
-			const dealerList = this.dealersArea1.concat(this.dealersArea2, this.dealersArea3, this.dealersArea4, this.dealersArea5, this.dealersArea6, this.dealersArea7, this.dealersArea8, this.dealersOnline)
+			const allDealers = this.dealers
 			var dealerNameList = []
-			dealerList.forEach((dealer) => {
+			allDealers.forEach((dealer) => {
 				if (!dealerNameList.includes(dealer.title.rendered)) {
 					dealerNameList.push(dealer.title.rendered)
 				}
 			})
 			return dealerNameList.length
 		},
-		dealerListArea1: function() {
-			return this.dealersArea1
-		},
-		dealerListArea2: function() {
-			return this.dealersArea2
-		},
-		dealerListArea3: function() {
-			return this.dealersArea3
-		},
-		dealerListArea4: function() {
-			return this.dealersArea4
-		},
-		dealerListArea5: function() {
-			return this.dealersArea5
-		},
-		dealerListArea6: function() {
-			return this.dealersArea6
-		},
-		dealerListArea7: function() {
-			return this.dealersArea7
-		},
-		dealerListArea8: function() {
-			return this.dealersArea8
+		dealerList: function() {
+			return this.dealers
 		},
 		dealerListOnline: function() {
 			return this.dealersOnline
 		}
 	},
 	methods: {
-		scrollToTarget: function(target) {
-			this.$scrollTo('#' + target, {
-				offset: window.innerWidth < 980 ? -69 : -90,
-			})
-		},
 		showBrandList: function(brandName) {
 			this.brandListStatus = this.brandListStatus == 'show' ? '' : 'show'
 			if (this.brandListStatus == 'show') {
@@ -381,63 +152,70 @@ export default {
 				document.addEventListener('click', removeBrandListView)
 			}
 		},
-		selectBrand: function(brandName) {
-			this.brand = brandName
-			this.filter()
+		selectBrand: function(brand) {
+			this.brandName = brand
+			this.brandFilter()
 			this.brandListStatus = ''
 		},
-		filter: function() {
+		brandFilter: function() {
 
-			if (this.brand == 'All Brands') {
+			if (this.brandName == 'All Brands') {
 
-				this.dealersArea1 = this.dealerData1
-				this.dealersArea2 = this.dealerData2
-				this.dealersArea3 = this.dealerData3
-				this.dealersArea4 = this.dealerData4
-				this.dealersArea5 = this.dealerData5
-				this.dealersArea6 = this.dealerData6
-				this.dealersArea7 = this.dealerData7
-				this.dealersArea8 = this.dealerData8
-				this.dealersOnline = this.dealerDataOnline
-
+				this.dealers = this.dealerData
 
 			} else {
 
-				this.dealersArea1 = this.dealerData1.filter((dealer) => {
+				this.dealers = this.dealerData.filter((dealer) => {
 					return this.dealerBrandCheck(dealer)
 				})
-				this.dealersArea2 = this.dealerData2.filter((dealer) => {
-					return this.dealerBrandCheck(dealer)
-				})
-				this.dealersArea3 = this.dealerData3.filter((dealer) => {
-					return this.dealerBrandCheck(dealer)
-				})
-				this.dealersArea4 = this.dealerData4.filter((dealer) => {
-					return this.dealerBrandCheck(dealer)
-				})
-				this.dealersArea5 = this.dealerData5.filter((dealer) => {
-					return this.dealerBrandCheck(dealer)
-				})
-				this.dealersArea6 = this.dealerData6.filter((dealer) => {
-					return this.dealerBrandCheck(dealer)
-				})
-				this.dealersArea7 = this.dealerData7.filter((dealer) => {
-					return this.dealerBrandCheck(dealer)
-				})
-				this.dealersArea8 = this.dealerData8.filter((dealer) => {
-					return this.dealerBrandCheck(dealer)
-				})
-				this.dealersOnline = this.dealerDataOnline.filter((dealer) => {
-					return this.dealerBrandCheck(dealer)
-				})
+
 			}
 			
 		},
 		dealerBrandCheck: function(dealer) {
-			const dealerBrandList = dealer._embedded['acf:post'].filter((data) => {
-				return data.title.rendered == this.brand
+			const dealerBrandList = dealer.acf.brand_source.formatted_value.filter((data) => {
+				return data.post_title == this.brandName
 			})
 			return dealerBrandList.length != 0
+		},
+		showAreaList: function() {
+			this.areaListStatus = this.areaListStatus == 'show' ? '' : 'show'
+			if (this.areaListStatus == 'show') {
+				const self = this
+				const removeAreaListView = function(e) {
+					if (!e.target.classList.contains('filter_button') && !e.target.classList.contains('area_filter')) {
+						self.areaListStatus = ''
+						document.removeEventListener('click', removeAreaListView)
+					}
+				}
+				document.addEventListener('click', removeAreaListView)
+			}
+		},
+		selectArea: function(area) {
+			this.areaName = area
+			this.areaFilter()
+			this.areaListStatus = ''
+		},
+		areaFilter: function() {
+
+			if (this.areaName == 'All Area') {
+
+				this.dealers = this.dealerData
+
+			} else {
+
+				this.dealers = this.dealerData.filter((dealer) => {
+					return this.dealerAreaCheck(dealer)
+				})
+
+			}
+			
+		},
+		dealerAreaCheck: function(dealer) {
+			const dealerAreaList = dealer._embedded['wp:term'][0].filter((data) => {
+				return data.description == this.areaName
+			})
+			return dealerAreaList.length != 0
 		},
 	}
 }
@@ -462,39 +240,20 @@ export default {
 		}
 		.wrap {
 			margin-top: 4.8rem;
-			.filter {
+			.information {
 				width: calc(20% - 3.2rem);
-				.heading {
-					display: inline-block;
+				z-index: 1;
+				* {
+					display: block;
+					// font-size: 1.4rem;
 					line-height: 1;
 				}
-				.area_list {
+				.num {
+					font-size: 3.5rem;
+				}
+				.date {
 					margin-top: 2.4rem;
-					padding-top: 1.6rem;
-					border-top: 1px solid #27343F;
-					li {
-						position: relative;
-						margin-top: 0.8rem;
-						button {
-							display: inline-block;
-							line-height: 1;
-						}
-						&.selected {
-							&:before {
-								// content: '';
-								// position: absolute;
-								// top: 0;
-								// left: -1.2rem;
-								// bottom: 0;
-								// display: block;
-								// margin: auto;
-								// width: 4px;
-								// height: 4px;
-								// background-color: #27343F;
-								// border-radius: 50%;
-							}
-						}
-					}
+					font-size: 1.4rem;
 				}
 			}
 			.list_wrap {
@@ -502,11 +261,16 @@ export default {
 					position: relative;
 					z-index: 1;
 					padding-bottom: 2.4rem;
-					.brand_wrap {
+					span {
+						display: block;
+						line-height: 1;
+					}
+					.filter_wrap {
 						position: relative;
+						margin-left: 3rem;
 						.toggle {
 							position: relative;
-							display: inline-block;
+							display: block;
 							padding-right: 2rem;
 							line-height: 1;
 							&:after {
@@ -532,7 +296,7 @@ export default {
 						}
 						ul {
 							position: absolute;
-							top: 2.5rem;
+							top: 6rem;
 							left: 0;
 							padding: 0.8rem 0;
 							height: 30rem;
@@ -542,6 +306,7 @@ export default {
 							box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
 							border-radius: 0.3rem;
 							overflow: scroll;
+							z-index: 1;
 							li {
 								button {
 									position: relative;
@@ -582,52 +347,44 @@ export default {
 						}
 					}
 					.num {
-						display: inline-block;
-						line-height: 1;
-						// width: calc(19.5vw * 2);
+						margin-left: auto;
+						width: fit-content;
 					}
 				}
-				.area_list {
-					> li {
-						padding-bottom: 9.6rem;
-						border-top: 1px solid #27343F;
-						.area_wrap {
-							margin-top: 2.4rem;
-							h3 {
-								margin-right: 0.6rem;
-								font-size: 2rem;
-								line-height: 1.5;
-							}
-							.num {
-								display: inline-block;
+				.dealer_list {
+					border-top: 1px solid #27343F;
+					.dealer {
+						position: relative;
+						padding: 2.4rem 0 8rem;
+						.brand_wrap {
+							margin-top: 1.2rem;
+							width: 100%;
+							* {
 								font-size: 1.4rem;
-								line-height: 1.5;
+								color: rgba(39, 52, 63, 0.6);
 							}
-							&.zero {
-								opacity: 0.3;
+							span {
+								width: 20%;
 							}
-						}
-						.dealer_list {
-							margin-left: auto;
-							height: fit-content;
-							> li {
-								padding: 2.4rem 0;
-								border-top: 1px solid rgba(39, 52, 63, 0.15);
-								.link_wrap {
-									text-align: right;
-									a {
-										line-height: 1.5;
-									}
-								}
+							.brand_list {
+								width: 75%;
 							}
 						}
-						&.zero {
-							.area_wrap {
-								h3 {
-									color: rgba(39, 52, 63, 0.6);
-								}
-							}
+						.link {
+							position: absolute;
+							// top: 2.4rem;
+							right: 0;
+							bottom: 4.8rem;
+							font-size: 1.4rem;
+							line-height: 1.5;
 						}
+						&:nth-of-type(n + 3) {
+							border-top: 1px solid rgba(39, 52, 63, 0.15);
+						}
+					}
+					.zero {
+						padding: 2.4rem;
+						color: rgba(39, 52, 63, 0.6);
 					}
 				}
 			}
@@ -652,6 +409,32 @@ export default {
 					z-index: 2;
 					.heading {
 						display: none;
+					}
+					.filter_wrap {
+						position: relative;
+						button {
+							display: inline-block;
+							line-height: 1;
+						}
+						ul {
+							li {
+								button {
+									&:after {
+									}
+									&:hover {
+										background-color: #F5F4EA;
+									}
+									&.selected {
+										&:after {
+										}
+									}
+								}
+							}
+							&.show {
+								opacity: 1;
+								pointer-events: auto;
+							}
+						}
 					}
 					.area_wrap {
 						display: block;
@@ -689,39 +472,13 @@ export default {
 						position: relative;
 						z-index: 1;
 						padding-bottom: 2.4rem;
-						.brand_wrap {
-							position: relative;
-							button {
-								display: inline-block;
-								line-height: 1;
-							}
-							ul {
-								li {
-									button {
-										&:after {
-										}
-										&:hover {
-											background-color: #F5F4EA;
-										}
-										&.selected {
-											&:after {
-											}
-										}
-									}
-								}
-								&.show {
-									opacity: 1;
-									pointer-events: auto;
-								}
-							}
-						}
 						.num {
 							display: inline-block;
 							line-height: 1;
 							// width: calc(19.5vw * 2);
 						}
 					}
-					.area_list {
+					.dealer_list {
 						> li {
 							padding-bottom: 6rem;
 							.area_wrap {
