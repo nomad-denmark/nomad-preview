@@ -89,7 +89,8 @@ export default {
 				return Promise.all([
 					app.$wordpress.getPosts('news', {
 						params: {
-							'posts_per_page': 3,
+							// 'posts_per_page': 3,
+							'per_page': 3,
 							'exclude': press.id,
 							'categories': press.news_category[0],
 							// 'categories': 'Press',

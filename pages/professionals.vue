@@ -108,13 +108,15 @@ export default {
 			return Promise.all([
 				app.$wordpress.getPosts('news', {
 					params: {
+						'per_page': 4,
 						'news_category_exclude': 'press',
 						'_embed': true
 					}
 				}),
 				app.$wordpress.getPosts('case', {
 					params: {
-						'posts_per_page': 4,
+						// 'posts_per_page': 4,
+						'per_page': 4,
 						'_embed': true
 					}
 				}),

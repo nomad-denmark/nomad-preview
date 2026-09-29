@@ -246,7 +246,8 @@ export default {
 		try {
 			this.brandList = await this.$wordpress.getPosts('brands', {
 				params: {
-					'posts_per_page': -1,
+					// 'posts_per_page': -1,
+					'per_page': 100,
 					'_embed': true
 				}
 			})

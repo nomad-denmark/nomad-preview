@@ -182,7 +182,8 @@ export default {
 				return Promise.all([
 					app.$wordpress.getPosts('brands', {
 						params: {
-							'posts_per_page': 4,
+							// 'posts_per_page': 4,
+							'per_page': 4,
 							'exclude': brand.id,
 							'_embed': true
 						}

@@ -66,7 +66,8 @@ export default {
 			return Promise.all([
 				app.$wordpress.get('dealers', {
 					params: {
-						'posts_per_page': -1,
+						// 'posts_per_page': -1,
+						'per_page': 100,
 						'_embed': true
 					}
 				}),
@@ -80,7 +81,8 @@ export default {
 				}),
 				app.$wordpress.get('dealers', {
 					params: {
-						'posts_per_page': 1,
+						// 'posts_per_page': 1,
+						'per_page': 1,
 					}
 				}),
 			])

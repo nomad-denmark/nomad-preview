@@ -226,13 +226,15 @@ export default {
 				}),
 				app.$wordpress.getPosts('brands', {
 					params: {
-						'posts_per_page': -1,
+						// 'posts_per_page': -1,
+						'per_page': 100,
 						'_embed': true
 					}
 				}),
 				app.$wordpress.getPosts('news', {
 					params: {
-						'posts_per_page': 4,
+						// 'posts_per_page': 4,
+						'per_page': 4,
 						'_embed': true
 					}
 				}),

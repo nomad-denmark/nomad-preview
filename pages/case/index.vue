@@ -67,6 +67,7 @@ export default {
 				app.$wordpress.getPosts('case', {
 					params: {
 						'case_category': 'tableware',
+						'per_page': 100,
 						'_embed': true
 					}
 				}),
