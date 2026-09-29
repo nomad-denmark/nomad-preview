@@ -83,8 +83,8 @@
 					<div class="content grid_vw_3">
 						<div class="wrap" v-html="brand.content.rendered">
 						</div>
-						<ul class="modal">
-							<li v-for="modal in brand.acf.modal">
+						<div class="modal_list">
+							<div class="modal" v-for="modal in brand.acf.modal">
 								<button class="modal_button underline" @click="modalOpen('modal_' + index)">{{ modal.title }}</button>
 								<div :id="'modal_' + index" class="modal_bg" @click="clickModalBg" data-lenis-prevent>
 									<div class="modal_content">
@@ -95,21 +95,23 @@
 										<div class="html" v-html="modal.content"></div>
 									</div>
 								</div>
-							</li>
-						</ul>
-						<a class="download underline" target="_blank" :href="catalog.acf.pdf" v-for="catalog in brand._embedded['acf:post']" download>
-							<span class="title">
-								{{ catalog.title.rendered }}
-							</span>
-							<span class="date">{{ catalog.acf.date + ' 更新版' }}</span>
-						</a>
+							</div>
+						</div>
+						<div class="download_list">
+							<a class="download underline" target="_blank" :href="catalog.acf.pdf" v-for="catalog in brand._embedded['acf:post']" download>
+								<span class="title">
+									{{ catalog.title.rendered }}
+								</span>
+								<span class="date">{{ catalog.acf.date + ' 更新版' }}</span>
+							</a>
+						</div>
 					</div>
 				</section>
 
 				<section class="movie l4 r4">
 					<div class="wrap" v-for="movie in brand.acf.movie">
 						<div class="ratio">
-							<iframe alt="" :src="movie.url.replace('vimeo.com', 'player.vimeo.com')" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" allow="autoplay; fullscreen; picture-in-picture"></iframe>
+							<iframe alt="" :src="movie.url.replace('vimeo.com', 'player.vimeo.com/video')" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" allow="autoplay; fullscreen; picture-in-picture"></iframe>
 						</div>
 						<span class="caption">{{ movie.caption }}</span>
 					</div>
@@ -539,6 +541,9 @@ export default {
 						font-size: 3.3rem;
 						line-height: 1.5;
 					}
+					&:deep(h3) {
+						font-size: 2.5rem;
+					}
 					&:deep(p),
 					&:deep(span) {
 						font-size: 1.8rem;
@@ -577,163 +582,167 @@ export default {
 						margin-top: 6.4rem;
 					}
 				}
-				.download {
-					position: relative;
-					display: block;
-					margin-top: 4.8rem;
-					padding: 1.6rem 0;
-					span {
-						display: block;
-						line-height: 1.5;
-					}
-					.title {
-						font-size: 1.8rem;
-					}
-					.date {
-						font-size: 1.4rem;
-						color: rgba(39, 52, 63, 0.6);
-					}
-					&:before {
-						content: '';
-						position: absolute;
-						top: 0;
-						right: 0;
-						bottom: 0;
-						display: block;
-						margin: auto;
-						width: 2rem;
-						height: 2rem;
-						background-image: url('~/assets/img/icon/download.svg');
-						background-position: center;
-						background-size: contain;
-						background-repeat: no-repeat;
-					}
-				}
-				.modal {
-					margin-top: 4.8rem;
-					.modal_button {
+				.download_list {
+					.download {
 						position: relative;
-						display: inline-block;
-						padding-right: 3rem;
-						padding-bottom: 0.6rem;
-						font-size: 1.8rem;
+						display: block;
+						margin-top: 4.8rem;
+						padding: 1.6rem 0;
+						span {
+							display: block;
+							line-height: 1.5;
+						}
+						.title {
+							font-size: 1.8rem;
+						}
+						.date {
+							font-size: 1.4rem;
+							color: rgba(39, 52, 63, 0.6);
+						}
 						&:before {
 							content: '';
 							position: absolute;
 							top: 0;
 							right: 0;
-							bottom: 0.6rem;
+							bottom: 0;
 							display: block;
 							margin: auto;
 							width: 2rem;
 							height: 2rem;
-							background-image: url('~/assets/img/icon/modal.svg');
+							background-image: url('~/assets/img/icon/download.svg');
 							background-position: center;
 							background-size: contain;
 							background-repeat: no-repeat;
 						}
 					}
-					.modal_bg {
-						position: fixed;
-						top: 0;
-						left: 0;
-						right: 0;
-						bottom: 0;
-						background-color: rgba(0, 0, 0, 0.5);
-						opacity: 0;
-						visibility: hidden;
-						pointer-events: none;
-						z-index: 0;
-						transition: all 0s ease-out;
-						transition-delay: 0.3s;
-						.modal_content {
-							position: absolute;
-							top: 2rem;
-							right: 2rem;
-							bottom: 2rem;
-							width: 37vw;
-							height: calc(100vh - 4rem);
-							overflow: scroll;
-							transform: translateX(calc(37vw + 2rem));
-							transition: all 0.2s 0.1s ease-out;
-							background-color: #F5F4EA;
-							.title {
-								position: sticky;
+				}
+				.modal_list {
+					.modal {
+						margin-top: 4.8rem;
+						.modal_button {
+							position: relative;
+							display: inline-block;
+							padding-right: 3rem;
+							padding-bottom: 0.6rem;
+							font-size: 1.8rem;
+							&:before {
+								content: '';
+								position: absolute;
 								top: 0;
-								padding: 2.4rem;
-								padding-bottom: 2rem;
-								height: fit-content;
-								border-bottom: 1px solid rgba(39, 52, 63, 0.15);
-								background-color: #F5F4EA;
-								h3 {
-									width: calc(96% - 4.8rem);
-									font-size: 1.8rem;
-
-								}
-								button {
-									padding: 0.4rem;
-									width: 2.4rem;
-									height: 2.4rem;
-									background-image: url('~/assets/img/icon/cross.svg');
-									background-position: center;
-									background-size: contain;
-									background-repeat: no-repeat;
-								}
+								right: 0;
+								bottom: 0.6rem;
+								display: block;
+								margin: auto;
+								width: 2rem;
+								height: 2rem;
+								background-image: url('~/assets/img/icon/modal.svg');
+								background-position: center;
+								background-size: contain;
+								background-repeat: no-repeat;
 							}
-							.html {
-								padding: 2.4rem;
-								&:deep(img) {
-									padding: 1.6rem 0;
-								}
-								&:deep(h3) {
-									margin-top: 2.4rem;
-									font-size: 1.8rem;
-								}
-								&:deep(p),
-								&:deep(span) {
-									margin: 2.4rem 0;
-									font-size: 1.4rem;
-									line-height: 2;
-								}
-								&:deep(a) {
-									position: relative;
-									display: inline-block;
-									padding-bottom: 0.4rem;
-									font-size: 1.4rem;
-									line-height: 1.5;
-									&:after {
-										content: '';
-										position: absolute;
-										right: 0;
-										bottom: 0;
-										display: block;
-										margin: auto;
-										width: 100%;
-										height: 1px;
-										background-color: #1A1A1A;
-										transform: scaleX(1);
-										transform-origin: left;
-										transition: transform 0.4s cubic-bezier(0.16, 0.97, 0.32, 1), transform 0.4s cubic-bezier(0.16, 0.97, 0.32, 1);
+						}
+						.modal_bg {
+							position: fixed;
+							top: 0;
+							left: 0;
+							right: 0;
+							bottom: 0;
+							background-color: rgba(0, 0, 0, 0.5);
+							opacity: 0;
+							visibility: hidden;
+							pointer-events: none;
+							z-index: 0;
+							transition: all 0s ease-out;
+							transition-delay: 0.3s;
+							.modal_content {
+								position: absolute;
+								top: 2rem;
+								right: 2rem;
+								bottom: 2rem;
+								width: 37vw;
+								height: calc(100vh - 4rem);
+								overflow: scroll;
+								transform: translateX(calc(37vw + 2rem));
+								transition: all 0.2s 0.1s ease-out;
+								background-color: #F5F4EA;
+								.title {
+									position: sticky;
+									top: 0;
+									padding: 2.4rem;
+									padding-bottom: 2rem;
+									height: fit-content;
+									border-bottom: 1px solid rgba(39, 52, 63, 0.15);
+									background-color: #F5F4EA;
+									h3 {
+										width: calc(96% - 4.8rem);
+										font-size: 1.8rem;
+
 									}
-									&:hover {
-										@media only screen and (min-width: 980px) {
-											&:after {
-												transform: scaleX(0);
-												transform-origin: right;
+									button {
+										padding: 0.4rem;
+										width: 2.4rem;
+										height: 2.4rem;
+										background-image: url('~/assets/img/icon/cross.svg');
+										background-position: center;
+										background-size: contain;
+										background-repeat: no-repeat;
+									}
+								}
+								.html {
+									padding: 2.4rem;
+									&:deep(img) {
+										padding: 1.6rem 0;
+									}
+									&:deep(h3) {
+										margin-top: 2.4rem;
+										font-size: 1.8rem;
+									}
+									&:deep(p),
+									&:deep(span) {
+										margin: 2.4rem 0;
+										font-size: 1.4rem;
+										line-height: 2;
+									}
+									&:deep(a) {
+										position: relative;
+										display: inline-block;
+										padding-bottom: 0.4rem;
+										font-size: 1.4rem;
+										line-height: 1.5;
+										&:after {
+											content: '';
+											position: absolute;
+											right: 0;
+											bottom: 0;
+											display: block;
+											margin: auto;
+											width: 100%;
+											height: 1px;
+											background-color: #1A1A1A;
+											transform: scaleX(1);
+											transform-origin: left;
+											transition: transform 0.4s cubic-bezier(0.16, 0.97, 0.32, 1), transform 0.4s cubic-bezier(0.16, 0.97, 0.32, 1);
+										}
+										&:hover {
+											@media only screen and (min-width: 980px) {
+												&:after {
+													transform: scaleX(0);
+													transform-origin: right;
+												}
 											}
 										}
 									}
 								}
 							}
-						}
-						&.open {
-							opacity: 1;
-							visibility: visible;
-							pointer-events: auto;
-							z-index: 50;
-							transition-delay: 0s;
-							.modal_content {
-								transform: translateX(0);
+							&.open {
+								opacity: 1;
+								visibility: visible;
+								pointer-events: auto;
+								z-index: 50;
+								transition-delay: 0s;
+								.modal_content {
+									transform: translateX(0);
+								}
 							}
 						}
 					}
@@ -766,6 +775,9 @@ export default {
 						&:deep(h2) {
 							font-size: 2.4rem;
 						}
+						&:deep(h3) {
+							font-size: 3rem;
+						}
 						&:deep(p),
 						&:deep(span) {
 							font-size: 1.6rem;
@@ -784,68 +796,72 @@ export default {
 							margin-top: 6.4rem;
 						}
 					}
-					.download {
-						padding: 1.2rem 0;
-						span {
-						}
-						.title {
-							font-size: 1.6rem;
-						}
-						.date {
-							font-size: 1.2rem;
-						}
-						&:before {
-						}
-					}
-					.modal {
-						.modal_button {
-							font-size: 1.6rem;
+					.download_list {
+						.download {
+							padding: 1.2rem 0;
+							span {
+							}
+							.title {
+								font-size: 1.6rem;
+							}
+							.date {
+								font-size: 1.2rem;
+							}
 							&:before {
 							}
 						}
-						.modal_bg {
-							.modal_content {
-								top: 1rem;
-								right: 1rem;
-								bottom: 1rem;
-								width: calc(100vw - 2rem);
-								height: calc(100dvh - 2rem);
-								.title {
-									padding: 1.6rem;
-									padding-bottom: 2rem;
-									h3 {
-										font-size: 1.6rem;
-									}
-									button {
-										padding: 0.2rem;
-									}
+					}
+					.modal_list {
+						.modal {
+							.modal_button {
+								font-size: 1.6rem;
+								&:before {
 								}
-								.html {
-									padding: 1.6rem;
-									&:deep(img) {
-									}
-									&:deep(h3) {
-										margin-top: 2rem;
-										font-size: 1.6rem;
-									}
-									&:deep(p),
-									&:deep(span) {
-										margin: 2rem 0;
-										font-size: 1.2rem;
-									}
-									&:deep(a) {
-										font-size: 1.2rem;
-										&:after {
+							}
+							.modal_bg {
+								.modal_content {
+									top: 1rem;
+									right: 1rem;
+									bottom: 1rem;
+									width: calc(100vw - 2rem);
+									height: calc(100dvh - 2rem);
+									.title {
+										padding: 1.6rem;
+										padding-bottom: 2rem;
+										h3 {
+											font-size: 1.6rem;
 										}
-										&:hover {
+										button {
+											padding: 0.2rem;
+										}
+									}
+									.html {
+										padding: 1.6rem;
+										&:deep(img) {
+										}
+										&:deep(h3) {
+											margin-top: 2rem;
+											font-size: 1.6rem;
+										}
+										&:deep(p),
+										&:deep(span) {
+											margin: 2rem 0;
+											font-size: 1.2rem;
+										}
+										&:deep(a) {
+											font-size: 1.2rem;
 											&:after {
-												content: none;
+											}
+											&:hover {
+												&:after {
+													content: none;
+												}
 											}
 										}
 									}
 								}
-							}
-							&.open {
+								&.open {
+								}
 							}
 						}
 					}

@@ -138,7 +138,7 @@
 						<span class="heading">Concept</span>
 						<div class="grid_vw_3">
 							<h2 class="">{{ showroom.name }}</h2>
-							<p class="introduction">{{ showroom.content.rendered }}</p>
+							<p class="introduction">{{ showroom.introduction }}</p>
 							<div class="artist_wrap grid_vw_1">
 								<div class="artist flex flex-start align-center" v-for="artist in showroom.artists">
 									<span class="">{{ artist.label }}</span>

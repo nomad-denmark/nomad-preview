@@ -10,7 +10,7 @@
 				<div class="artist_wrap grid_vw_1">
 					<div class="artist flex flex-start align-center" v-for="artist in showroom.artists">
 						<span class="">{{ artist.label }}</span>
-						<a class="icon outside" target="_blank" :href="artist.artist.url">{{ artist.artist.name }}<i></i></a>
+						<a class="icon outside" target="_blank" :href="artist.link">{{ artist.name }}<i></i></a>
 					</div>
 				</div>
 				<div class="grid_vw_3 flex">
