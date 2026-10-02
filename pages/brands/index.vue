@@ -143,6 +143,7 @@ export default {
 	data() {
 		return {
 			filterType: [],
+			filterCategories: ['Tableware', 'Kitchen', 'Interior', 'Lighting', 'Textile', 'Furniture'],
 			sortType: 'Recommended',
 			sortListStatus: '',
 			layout: 'layout_4',
@@ -250,7 +251,7 @@ export default {
 
 				// this.$lenis.destroy()
 				// this.lenis = new Lenis()
-				requestAnimationFrame(this.raf)
+				// requestAnimationFrame(this.raf)
 
 			})
 		},
@@ -278,7 +279,7 @@ export default {
 
 				// this.$lenis.destroy()
 				// this.lenis = new Lenis()
-				requestAnimationFrame(this.raf)
+				// requestAnimationFrame(this.raf)
 
 			})
 		},
@@ -288,19 +289,15 @@ export default {
 
 			if (this.filterType.length) {
 				list = list.filter((brand) => {
-					var categoryCheck = this.filterCheck(brand)
-					if (this.filterType.includes('Other')) {
-						categoryCheck = this.filterCheck(brand) || brand.otherCategory != ''
-					}
-					return categoryCheck
+					return this.filterCheck(brand)
 				})
 			}
 
 			if (this.sortType != 'Recommended') {
 				list = [...list].sort((a, b) => {
-					if (a.name < b.name) {
+					if (a.title.rendered < b.title.rendered) {
 						return -1
-					} else if (a.name > b.name) {
+					} else if (a.title.rendered > b.title.rendered) {
 						return 1
 					}
 					return 0
@@ -312,10 +309,11 @@ export default {
 			
 		},
 		filterCheck: function(brand) {
-			return brand._embedded['wp:term'][0].some((category) => {
-				var categoryCheck = this.filterType.includes(category)
+			const brandCategoryList = brand._embedded['wp:term'].flat().filter(term => term.taxonomy == 'brand_category')
+			return brandCategoryList.some((category) => {
+				var categoryCheck = this.filterType.includes(category.name)
 				if (this.filterType.includes('Other')) {
-					categoryCheck = this.filterType.includes(category) || brand.otherCategory != ''
+					categoryCheck = this.filterType.includes(category.name) || !this.filterCategories.includes(category.name)
 				}
 				return categoryCheck
 			})

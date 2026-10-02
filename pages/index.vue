@@ -89,8 +89,8 @@
 					<li v-for="brand, index in brandList">
 						<NuxtLink class="" :to="{ name: 'brands-id', params: { id: brand.slug } }">
 							<div class="visual_wrap ratio">
-								<img v-if="index % 8 == 0 || index % 8 == 1" alt="" :src="brand.thumbnail_horizontal">
-								<img v-else alt="" :src="brand.thumbnail_vertical">
+								<img v-if="index % 8 == 0 || index % 8 == 1" alt="" :src="brand.acf.thumbnail_horizontal">
+								<img v-else alt="" :src="brand.acf.thumbnail_vertical">
 								<h3>{{ brand.title.rendered }}</h3>
 							</div>
 							<div class="detail_wrap flex">

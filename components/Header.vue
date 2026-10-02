@@ -248,7 +248,7 @@ export default {
 				params: {
 					// 'posts_per_page': -1,
 					'per_page': 100,
-					'_embed': true
+					// '_embed': true
 				}
 			})
 			.then((res) => {
