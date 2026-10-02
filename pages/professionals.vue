@@ -25,10 +25,10 @@
 					</svg>
 				</div>
 				<swiper ref="mainVisual" class="" :options="mvOption">
-					<swiper-slide v-for="caseStudy, index in caseList" :key="index">
+					<swiper-slide v-for="caseStudy, index in caseList.sort(() => Math.random() - 0.5).slice(0, 4)" :key="index">
 						<NuxtLink class="wrap" :to="{ name: 'case-id', params: { id: caseStudy.slug } }">
 							<div class="ratio">
-								<img v-if="caseStudy._embedded['wp:featuredmedia']" alt="" :src="caseStudy._embedded['wp:featuredmedia'][0].source_url">
+								<img v-if="caseStudy.acf.main_visual" alt="" :src="caseStudy.acf.main_visual">
 							</div>
 							<div class="text_wrap flex">
 								<div class="title grid_vw_1">
@@ -82,7 +82,7 @@
 					</div>
 				</div>
 				<ul class="case_list grid_vw_3">
-					<li class="" v-for="caseStudy in caseList">
+					<li class="" v-for="caseStudy, index in caseList.sort(() => Math.random() - 0.5).slice(0, 3)">
 						<CaseItem class="" :data="caseStudy"></CaseItem>
 					</li>
 				</ul>
@@ -106,6 +106,13 @@ export default {
 	async asyncData({ app, params }) {
 		try {
 			return Promise.all([
+				app.$wordpress.getPosts('case', {
+					params: {
+						// 'posts_per_page': 4,
+						'per_page': 100,
+						'_embed': true
+					}
+				}),
 				app.$wordpress.getPosts('news', {
 					params: {
 						'per_page': 4,
@@ -113,18 +120,11 @@ export default {
 						'_embed': true
 					}
 				}),
-				app.$wordpress.getPosts('case', {
-					params: {
-						// 'posts_per_page': 4,
-						'per_page': 4,
-						'_embed': true
-					}
-				}),
 			])
 			.then((res) => {
-				const newsList = res[0].data
-				const caseList = res[1].data
-				return { newsList, caseList }
+				const caseList = res[0].data
+				const newsList = res[1].data
+				return { caseList, newsList }
 			})
 		} catch(error) {
 			console.log(error)

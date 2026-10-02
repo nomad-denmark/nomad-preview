@@ -56,7 +56,7 @@
 						<li class="grid_vw_1" v-for="price_catalog in priceList">
 							<a class="grid_vw_1" target="_blank" :href="price_catalog.acf.pdf">
 								<div class="thumbnail ratio">
-									<img v-if="price_catalog._embedded['wp:featuredmedia']" alt="" :src="brand_catalog._embedded['wp:featuredmedia'][0].source_url">
+									<img v-if="price_catalog._embedded['wp:featuredmedia']" alt="" :src="price_catalog._embedded['wp:featuredmedia'][0].source_url">
 								</div>
 								<div class="text_wrap">
 									<span class="title">{{ price_catalog.title.rendered }}</span>
@@ -81,12 +81,16 @@ export default {
 			return Promise.all([
 				app.$wordpress.getPosts('downloads', {
 					params: {
+						// 'posts_per_page': -1,
+						'per_page': 100,
 						'type_category': 'catalog',
 						'_embed': true
 					}
 				}),
 				app.$wordpress.getPosts('downloads', {
 					params: {
+						// 'posts_per_page': -1,
+						'per_page': 100,
 						'type_category': 'price-list',
 						'_embed': true
 					}

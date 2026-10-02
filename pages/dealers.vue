@@ -31,10 +31,13 @@
 						<button class="toggle filter_button" :class="areaListStatus" @click="showAreaList">{{ areaName }}<i></i></button>
 						<ul class="area_list" :class="areaListStatus"  data-lenis-prevent>
 							<li class="">
-								<button class="area_filter" :class="{ 'selected': areaName == 'すべて' }" @click="selectArea('All Area')">All Area</button>
+								<button class="area_filter" :class="{ 'selected': areaName == 'All Area' }" @click="selectArea('All Area')">All Area</button>
 							</li>
 							<li v-for="area in areaList">
-								<button class="area_filter" :class="{ 'selected': areaName == area }" @click="selectArea(area.name)">{{ area.name }}</button>
+								<button v-if="area.parent != 0" class="area_filter" :class="{ 'selected': areaName == area.name }" @click="selectArea(area.name)">{{ area.name }}</button>
+							</li>
+							<li class="">
+								<button class="area_filter" :class="{ 'selected': areaName == 'Online' }" @click="selectArea('Online')">Online</button>
 							</li>
 						</ul>
 					</div>
@@ -46,7 +49,7 @@
 						<span class="name grid_vw_1">{{ dealer.title.rendered }}</span>
 						<div class="brand_wrap flex">
 							<span>Brands:</span>
-							<p class="brand_list grid_vw_1">{{ dealer._embedded['acf:post'].map(data => data.title ? data.title.rendered : '').join(', ') }}</p>
+							<p class="brand_list grid_vw_1">{{ dealer.acf.brands_source.formatted_value.map(data => data.post_title).join(' / ') }}</p>
 						</div>
 						<a v-if="dealer.acf.link" class="link icon outside underline" target="_blank" :href="dealer.acf.link">Website<i></i></a>
 					</div>					
@@ -64,22 +67,24 @@ export default {
 	async asyncData({ app, params }) {
 		try {
 			return Promise.all([
-				app.$wordpress.get('dealers', {
+				app.$wordpress.getPosts('dealers', {
 					params: {
 						// 'posts_per_page': -1,
 						'per_page': 100,
 						'_embed': true
 					}
 				}),
-				app.$wordpress.get('dealers_brands', {
+				app.$wordpress.getPosts('dealers_brands', {
 					params: {
+						// 'per_page': 100,
 					}
 				}),
-				app.$wordpress.get('area_category', {
+				app.$wordpress.getPosts('area_category', {
 					params: {
+						'per_page': 100,
 					}
 				}),
-				app.$wordpress.get('dealers', {
+				app.$wordpress.getPosts('dealers', {
 					params: {
 						// 'posts_per_page': 1,
 						'per_page': 1,
@@ -175,7 +180,7 @@ export default {
 			
 		},
 		dealerBrandCheck: function(dealer) {
-			const dealerBrandList = dealer.acf.brand_source.formatted_value.filter((data) => {
+			const dealerBrandList = dealer.acf.brands_source.formatted_value.filter((data) => {
 				return data.post_title == this.brandName
 			})
 			return dealerBrandList.length != 0
@@ -215,7 +220,7 @@ export default {
 		},
 		dealerAreaCheck: function(dealer) {
 			const dealerAreaList = dealer._embedded['wp:term'][0].filter((data) => {
-				return data.description == this.areaName
+				return data.name == this.areaName
 			})
 			return dealerAreaList.length != 0
 		},

@@ -84,7 +84,7 @@
 						<div class="wrap" v-html="brand.content.rendered">
 						</div>
 						<div class="modal_list">
-							<div class="modal" v-for="modal in brand.acf.modal">
+							<div class="modal" v-for="modal, index in brand.acf.modal_source.formatted_value">
 								<button class="modal_button underline" @click="modalOpen('modal_' + index)">{{ modal.title }}</button>
 								<div :id="'modal_' + index" class="modal_bg" @click="clickModalBg" data-lenis-prevent>
 									<div class="modal_content">
@@ -98,11 +98,12 @@
 							</div>
 						</div>
 						<div class="download_list">
+							<h3>Downloads</h3>
 							<a class="download underline" target="_blank" :href="catalog.acf.pdf" v-for="catalog in brand._embedded['acf:post']" download>
 								<span class="title">
 									{{ catalog.title.rendered }}
 								</span>
-								<span class="date">{{ catalog.acf.date + ' 更新版' }}</span>
+								<span class="data">{{ catalog.slug.includes('price') ? 'Price List' : 'Catalog' }}</span>
 							</a>
 						</div>
 					</div>
@@ -584,10 +585,15 @@ export default {
 					}
 				}
 				.download_list {
+					margin-top: 8rem;
+					h3 {
+						margin-bottom: 3rem;
+						font-size: 2.5rem;
+					}
 					.download {
 						position: relative;
 						display: block;
-						margin-top: 4.8rem;
+						margin-bottom: 4.8rem;
 						padding: 1.6rem 0;
 						span {
 							display: block;
@@ -596,7 +602,7 @@ export default {
 						.title {
 							font-size: 1.8rem;
 						}
-						.date {
+						.data {
 							font-size: 1.4rem;
 							color: rgba(39, 52, 63, 0.6);
 						}
@@ -777,7 +783,7 @@ export default {
 							font-size: 2.4rem;
 						}
 						&:deep(h3) {
-							font-size: 3rem;
+							font-size: 2rem;
 						}
 						&:deep(p),
 						&:deep(span) {
@@ -798,14 +804,20 @@ export default {
 						}
 					}
 					.download_list {
+						margin-top: 6rem;
+						h3 {
+							margin-bottom: 2rem;
+							font-size: 2rem;
+						}
 						.download {
+							margin-bottom: 3.5rem;
 							padding: 1.2rem 0;
 							span {
 							}
 							.title {
 								font-size: 1.6rem;
 							}
-							.date {
+							.data {
 								font-size: 1.2rem;
 							}
 							&:before {

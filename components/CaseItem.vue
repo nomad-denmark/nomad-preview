@@ -10,7 +10,7 @@
 				<p class="description">{{ data.acf.description }}</p>
 				<div v-if="data.acf.brands_source.formatted_value" class="brand_wrap flex">
 					<span class="heading">Brands:</span>
-					<span class="brand_list">{{ data.acf.brands_source.formatted_value[0].post_title + (data.acf.brands_source.formatted_value[1] ? ' / ' + data.acf.brands_source.formatted_value[1].post_title : '') + (data.acf.brands_source.formatted_value[2] ? ' / and more...' : '') }}</span>
+					<span class="brand_list">{{ data.acf.brands_source.formatted_value.slice(0, 1).map(data => data.post_title).join(' / ')  + (data.acf.brands_source.formatted_value[2] ? ' / and more...' : '') }}</span>
 				</div>
 			</div>
 		</div>

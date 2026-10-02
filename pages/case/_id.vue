@@ -6,10 +6,10 @@
 			<div class="title_wrap flex">
 				<h1 class="grid_vw_4">
 					<div class="heading_wrap grid_vw_1 flex">
-						<img alt="" :src="caseStudy._embedded['wp:featuredmedia'][0].source_url">
+						<img v-if="caseStudy._embedded['wp:featuredmedia']" alt="" :src="caseStudy._embedded['wp:featuredmedia'][0].source_url">
 						<span class="heading">(Case Study)</span>
 					</div>
-					{{ caseStudy.title }}
+					{{ caseStudy.title.rendered }}
 				</h1>
 				<div class="back_wrap grid_vw_1">
 					<NuxtLink class="icon back" to="/case">Back to List<i></i></NuxtLink>
@@ -18,15 +18,15 @@
 			<div class="description_wrap flex">
 				<span class="heading">Description</span>
 				<div class="grid_vw_3 flex">
-					<p class="description grid_vw_2">{{ caseStudy.description }}</p>
-					<NuxtLink class="underline" to="/case">{{ caseStudy.category }}</NuxtLink>
+					<p class="description grid_vw_2">{{ caseStudy.acf.description }}</p>
+					<NuxtLink class="underline" to="/case">{{ caseStudy._embedded['wp:term'][0][0].name }}</NuxtLink>
 				</div>
 			</div>
 		</section>
 
 		<div class="visual">
 			<div class="ratio">
-				<img alt="" :src="caseStudy.mainVisual">
+				<img alt="" :src="caseStudy.acf.main_visual">
 			</div>
 		</div>
 
@@ -34,18 +34,18 @@
 			<div class="sticky grid_vw_2 flex">
 				<div class="share_wrap grid_vw_1">
 					<span class="heading">Client</span>
-					<span class="name">{{ caseStudy.client }}</span>
+					<span class="name">{{ caseStudy.acf.client }}</span>
 				</div>
 				<div class="title_wrap grid_vw_1">
 					<span class="heading">Brands</span>
 					<ul class="">
-						<li v-for="brand in caseStudy.brand">
-							<NuxtLink class="underline" :to="{ name: 'brands-id', params: { id: brand.slug } }">{{ brand.name }}</NuxtLink>
+						<li v-for="brand in caseStudy._embedded['acf:post']">
+							<NuxtLink class="underline" :to="{ name: 'brands-id', params: { id: brand.slug } }">{{ brand.title.rendered }}</NuxtLink>
 						</li>
 					</ul>
 				</div>
 			</div>
-			<div class="content grid_vw_3" v-html="caseStudy.content"></div>
+			<div class="content grid_vw_3" v-html="caseStudy.content.rendered"></div>
 		</section>
 
 		<section class="related l4 r4">
@@ -81,18 +81,22 @@ export default {
 			return Promise.all([
 				app.$wordpress.getPosts('case', {
 					params: {
-						'slug': params.id
+						'slug': params.id,
+						'_embed': true
 					}
 				}),
 			])
 			.then((res) => {
 				const caseStudy = res[0].data[0]
+				console.log(caseStudy)
 				return Promise.all([
 					app.$wordpress.getPosts('case', {
 						params: {
-							'slug[ne]': params.id,
-							'category': caseStudy.category,
-							'limit': 3
+							// 'posts_per_page': 3,
+							'per_page': 3,
+							'exclude': caseStudy.id,
+							'case_category_id': caseStudy.case_category[0],
+							'_embed': true
 						}
 					}),
 					])
@@ -111,7 +115,7 @@ export default {
 			meta: [
 				{ hid: 'og:title', property: 'og:title', content: this.caseStudy.title + ' | NOMAD Preview' },
 				{ hid: 'og:url', property: 'og:url', content: 'https://preview.nomadinc.jp/case/' + this.caseStudy.slug },
-				{ hid: 'og:image', property: 'og:image', content: this.caseStudy._embedded['wp:featuredmedia'][0] ? this.caseStudy._embedded['wp:featuredmedia'][0].source_url : 'https://preview.nomadinc.jp/no_image.jpg' },
+				{ hid: 'og:image', property: 'og:image', content: this.caseStudy._embedded['wp:featuredmedia'] ? this.caseStudy._embedded['wp:featuredmedia'][0].source_url : 'https://preview.nomadinc.jp/no_image.jpg' },
 				{ hid: 'og:description', property: 'og:description', content: this.caseStudy.description },
 			],
 		}

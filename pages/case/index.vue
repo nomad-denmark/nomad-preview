@@ -66,19 +66,24 @@ export default {
 			return Promise.all([
 				app.$wordpress.getPosts('case', {
 					params: {
-						'case_category': 'tableware',
+						// 'posts_per_page': -1,
 						'per_page': 100,
+						'case_category': 'tableware',
 						'_embed': true
 					}
 				}),
 				app.$wordpress.getPosts('case', {
 					params: {
+						// 'posts_per_page': -1,
+						'per_page': 100,
 						'case_category': 'contract',
 						'_embed': true
 					}
 				}),
 				app.$wordpress.getPosts('case', {
 					params: {
+						// 'posts_per_page': -1,
+						'per_page': 100,
 						'case_category': 'promotion-gift',
 						'_embed': true
 					}
@@ -88,6 +93,7 @@ export default {
 				const tablewareList = res[0].data
 				const contractList = res[1].data
 				const promotionGiftList = res[2].data
+				console.log(res[0])
 				return { tablewareList, contractList, promotionGiftList }
 			})
 		} catch(error) {
