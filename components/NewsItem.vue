@@ -1,24 +1,27 @@
 <template>
 	
 	<NuxtLink class="flex" :to="{ name: 'news-id', params: { id: data.slug } }">
-		<span class="date grid_vw_1">{{ $dateFns.format(data.date, 'yyyy.MM.dd') }}</span>
-		<div class="flex text grid_vw_2">
-			<div class="text_wrap flex">
-				<div class="title_wrap">
+		<span class="data flex grid_vw_1">
+			<span class="category">{{ data._embedded['wp:term'][0].map(term => term.name).join(', ') }}</span>
+			<span class="date">{{ $dateFns.format(data.date, 'yyyy.MM.dd') }}</span>
+		</span>
+		<span class="flex text grid_vw_2">
+			<span class="text_wrap flex">
+				<span class="title_wrap">
 					<span class="title">{{ data.title.rendered }}</span>
-					<span class="category">{{ data._embedded['wp:term'][0].map(term => term.name).join(', ') }}</span>
-				</div>
-				<p class="introduction">{{ data.introduction }}</p>
-			</div>
-		</div>
-		<div class="flex image grid_vw_1">
-			<div class="thumbnail_wrap">
-				<div class="ratio">
+					<!-- <span class="category">{{ data._embedded['wp:term'][0].map(term => term.name).join(', ') }}</span> -->
+				</span>
+				<span class="introduction">{{ data.acf.introduction }}</span>
+			</span>
+		</span>
+		<span class="flex image grid_vw_1">
+			<span class="thumbnail_wrap">
+				<span class="ratio">
 					<img v-if="data._embedded['wp:featuredmedia']" alt="" :src="data._embedded['wp:featuredmedia'][0].source_url">
-				</div>
-			</div>
+				</span>
+			</span>
 			<span class="read underline">Read</span>
-		</div>
+		</span>
 	</NuxtLink>
 
 </template>
@@ -36,7 +39,16 @@ export default {
 	a {
 		padding: 2rem 0;
 		border-bottom: 1px solid rgba(39, 52, 63, 0.15);
-		.date {
+		.data {
+			span {
+				display: block;
+				width: 100%;
+			}
+			.date {
+				margin-top: auto;
+				font-size: 1.4rem;
+				color: rgba(39, 52, 63, 0.6);
+			}
 		}
 		.text_wrap {
 			padding-right: 8rem;
@@ -71,6 +83,7 @@ export default {
 		.thumbnail_wrap {
 			width: 65%;
 			.ratio {
+				display: block;
 				padding-top: 125%;
 				background-image: url('/no_image.jpg');
 				background-position: center;
@@ -84,11 +97,21 @@ export default {
 		@media only screen and (max-width: 980px) {
 			position: relative;
 			padding: 1.6rem 0;
-			.date {
+			.data {
 				position: absolute;
 				top: 1.6rem;
 				left: 0;
-				right: 0;
+				// right: 0;
+				align-items: flex-start;
+				width: calc(((100vw - 1.6rem * 9) / 8) * 5 + (1.6rem * 4));
+				span {
+					display: inline-block;
+					width: auto;
+				}
+				.date {
+					margin-top: 0;
+					font-size: 1.2rem;
+				}
 			}
 			.text {
 				width: calc(((100vw - 1.6rem * 9) / 8) * 5 + (1.6rem * 4));

@@ -53,6 +53,8 @@ export default {
 			return Promise.all([
 				app.$wordpress.getPosts('news', {
 					params: {
+						// 'posts_per_page': -1,
+						'per_page': 100,
 						'_embed': true
 					}
 				}),
