@@ -8,48 +8,50 @@
 		</h1>
 
 		<div class="wrap flex">
-			<div class="information sticky grid_vw_1" data-lenis-prevent>
-				<!-- <span class="heading">Sharing Lifestyle with Us</span> -->
-				<span class="num">{{ dealerNum }} Dealers</span>
-				<!-- <span class="date">Updated {{ $dateFns.format(updatedDate, 'yyyy.MM.dd') }}</span> -->
+			<div class="filter sticky grid_vw_1 flex" data-lenis-prevent>
+				<span class="heading">Filter</span>
+				<div class="brand_wrap filter_wrap flex">
+					<button class="toggle filter_button" :class="brandListStatus" @click="showBrandList">{{ brandName }}<i></i></button>
+					<ul class="brand_list" :class="brandListStatus"  data-lenis-prevent>
+						<li>
+							<button class="brand_filter" :class="{ 'selected': brandName == 'All Brands' }" @click="selectBrand('All Brands')">All Brands</button>
+						</li>
+						<li v-for="brand in brandList">
+							<button class="brand_filter" :class="{ 'selected': brandName == brand }" @click="selectBrand(brand)">{{ brand }}</button>
+						</li>
+					</ul>
+				</div>
+				<div class="area_wrap filter_wrap flex" data-lenis-prevent>
+					<button class="toggle filter_button" :class="areaListStatus" @click="showAreaList">{{ areaName }}<i></i></button>
+					<ul class="area_list" :class="areaListStatus"  data-lenis-prevent>
+						<li class="">
+							<button class="area_filter" :class="{ 'selected': areaName == 'All Area' }" @click="selectArea('All Area')">All Area</button>
+						</li>
+						<li v-for="area in areaList">
+							<button v-if="area.parent != 0" class="area_filter" :class="{ 'selected': areaName == area.name }" @click="selectArea(area.name)">{{ area.name }}</button>
+						</li>
+						<li class="">
+							<button class="area_filter" :class="{ 'selected': areaName == 'Online' }" @click="selectArea('Online')">Online</button>
+						</li>
+					</ul>
+				</div>
 			</div>
 			<div class="list_wrap grid_vw_4">
 				<div class="list_header flex flex-start">
-					<span class="heading">Filter :</span>
-					<div class="brand_wrap filter_wrap flex">
-						<button class="toggle filter_button" :class="brandListStatus" @click="showBrandList">{{ brandName }}<i></i></button>
-						<ul class="brand_list" :class="brandListStatus"  data-lenis-prevent>
-							<li>
-								<button class="brand_filter" :class="{ 'selected': brandName == 'All Brands' }" @click="selectBrand('All Brands')">All Brands</button>
-							</li>
-							<li v-for="brand in brandList">
-								<button class="brand_filter" :class="{ 'selected': brandName == brand }" @click="selectBrand(brand)">{{ brand }}</button>
-							</li>
-						</ul>
-					</div>
-					<div class="area_wrap filter_wrap flex" data-lenis-prevent>
-						<button class="toggle filter_button" :class="areaListStatus" @click="showAreaList">{{ areaName }}<i></i></button>
-						<ul class="area_list" :class="areaListStatus"  data-lenis-prevent>
-							<li class="">
-								<button class="area_filter" :class="{ 'selected': areaName == 'All Area' }" @click="selectArea('All Area')">All Area</button>
-							</li>
-							<li v-for="area in areaList">
-								<button v-if="area.parent != 0" class="area_filter" :class="{ 'selected': areaName == area.name }" @click="selectArea(area.name)">{{ area.name }}</button>
-							</li>
-							<li class="">
-								<button class="area_filter" :class="{ 'selected': areaName == 'Online' }" @click="selectArea('Online')">Online</button>
-							</li>
-						</ul>
-					</div>
-					<!-- <span class="num grid_vw_1">{{ dealerNum }} Dealers</span> -->
+					<span class="heading">Showing</span>
+					<span class="num grid_vw_1">{{ dealerNum }} Dealers</span>
 				</div>
 				<div class="dealer_list grid_vw_4 flex">
 					<p v-if="dealerList.length == 0" class="zero">No Dealers matched current filters.</p>
 					<div v-else class="dealer grid_vw_2" v-for="dealer in dealerList">
-						<span class="name grid_vw_1">{{ dealer.title.rendered }}</span>
-						<div class="brand_wrap flex">
+						<span class="name">{{ dealer.title.rendered }}</span>
+						<div class="filter_wrap flex">
 							<span>Brands:</span>
-							<p class="brand_list grid_vw_1">{{ dealer.acf.brands_source.formatted_value.map(data => data.post_title).join(' / ') }}</p>
+							<p class="filter_list">{{ dealer.acf.brands_source.formatted_value.map(data => data.post_title).join(' / ') }}</p>
+						</div>
+						<div class="filter_wrap flex">
+							<span>Area:</span>
+							<p class="filter_list">{{ dealer._embedded['wp:term'][0].map(term => term.name).join(' , ') }}</p>
 						</div>
 						<a v-if="dealer.acf.link" class="link icon outside underline" target="_blank" :href="dealer.acf.link">Website<i></i></a>
 					</div>					
@@ -247,111 +249,107 @@ export default {
 		}
 		.wrap {
 			margin-top: 4.8rem;
-			.information {
+			.filter {
+				display: block;
 				width: calc(20% - 3.2rem);
 				z-index: 1;
-				* {
-					display: block;
-					// font-size: 1.4rem;
+				.heading {
+					display: inline-block;
+					margin-bottom: 3.5rem;
+					font-size: 1.4rem;
 					line-height: 1;
 				}
-				.num {
-					font-size: 3.5rem;
-				}
-				.date {
-					margin-top: 2.4rem;
-					font-size: 1.4rem;
+				.filter_wrap {
+					position: relative;
+					margin-bottom: 1.6rem;
+					.toggle {
+						position: relative;
+						display: block;
+						padding-right: 2rem;
+						line-height: 1;
+						&:after {
+							content: '';
+							position: absolute;
+							top: 0;
+							right: 0;
+							bottom: 0;
+							display: block;
+							margin: auto;
+							width: 1.4rem;
+							height: 1.4rem;
+							background-image: url('~/assets/img/icon/toggle.svg');
+							background-position: center;
+							background-size: contain;
+							background-repeat: no-repeat;
+						}
+						&.show {
+							&:after {
+								transform: scale(1, -1);
+							}
+						}
+					}
+					ul {
+						position: absolute;
+						top: 3rem;
+						left: 0;
+						padding: 0.8rem 0;
+						height: 30rem;
+						opacity: 0;
+						pointer-events: none;
+						background-color: #F5F4EA;
+						box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+						border-radius: 0.3rem;
+						overflow: scroll;
+						z-index: 1;
+						li {
+							button {
+								position: relative;
+								display: block;
+								padding: 1.6rem 2rem;
+								width: 30rem;
+								font-size: 1.4rem;
+								line-height: 1;
+								&:after {
+									position: absolute;
+									top: 0;
+									right: 2rem;
+									bottom: 0;
+									display: block;
+									margin: auto;
+									width: 1.4rem;
+									height: 1.4rem;
+									background-image: url('~/assets/img/icon/check.svg');
+									background-position: center;
+									background-size: contain;
+									background-repeat: no-repeat;
+								}
+								&:hover {
+									background-color: #EAE9DC;
+								}
+								&.selected {
+									background-color: rgba(39, 52, 63, 0.15);
+									&:after {
+										content: '';
+									}
+								}
+							}
+						}
+						&.show {
+							opacity: 1;
+							pointer-events: auto;
+						}
+					}
 				}
 			}
 			.list_wrap {
 				.list_header {
 					position: relative;
 					z-index: 1;
+					// padding: 0.6rem 0 2.4rem;
 					padding-bottom: 2.4rem;
 					span {
 						display: block;
 						line-height: 1;
-					}
-					.filter_wrap {
-						position: relative;
-						margin-left: 3rem;
-						.toggle {
-							position: relative;
-							display: block;
-							padding-right: 2rem;
-							line-height: 1;
-							&:after {
-								content: '';
-								position: absolute;
-								top: 0;
-								right: 0;
-								bottom: 0;
-								display: block;
-								margin: auto;
-								width: 1.4rem;
-								height: 1.4rem;
-								background-image: url('~/assets/img/icon/toggle.svg');
-								background-position: center;
-								background-size: contain;
-								background-repeat: no-repeat;
-							}
-							&.show {
-								&:after {
-									transform: scale(1, -1);
-								}
-							}
-						}
-						ul {
-							position: absolute;
-							top: 6rem;
-							left: 0;
-							padding: 0.8rem 0;
-							height: 30rem;
-							opacity: 0;
-							pointer-events: none;
-							background-color: #F5F4EA;
-							box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
-							border-radius: 0.3rem;
-							overflow: scroll;
-							z-index: 1;
-							li {
-								button {
-									position: relative;
-									display: block;
-									padding: 1.6rem 2rem;
-									width: 30rem;
-									font-size: 1.4rem;
-									line-height: 1;
-									&:after {
-										position: absolute;
-										top: 0;
-										right: 2rem;
-										bottom: 0;
-										display: block;
-										margin: auto;
-										width: 1.4rem;
-										height: 1.4rem;
-										background-image: url('~/assets/img/icon/check.svg');
-										background-position: center;
-										background-size: contain;
-										background-repeat: no-repeat;
-									}
-									&:hover {
-										background-color: #EAE9DC;
-									}
-									&.selected {
-										background-color: rgba(39, 52, 63, 0.15);
-										&:after {
-											content: '';
-										}
-									}
-								}
-							}
-							&.show {
-								opacity: 1;
-								pointer-events: auto;
-							}
-						}
 					}
 					.num {
 						margin-left: auto;
@@ -362,9 +360,13 @@ export default {
 					border-top: 1px solid #27343F;
 					.dealer {
 						position: relative;
-						padding: 2.4rem 0 8rem;
-						.brand_wrap {
-							margin-top: 1.2rem;
+						margin-bottom: 4.8rem;
+						padding: 2.4rem 0 3.5rem;
+						.name {
+							display: block;
+							margin-bottom: 1.2rem;
+						}
+						.filter_wrap {
 							width: 100%;
 							* {
 								font-size: 1.4rem;
@@ -373,15 +375,14 @@ export default {
 							span {
 								width: 20%;
 							}
-							.brand_list {
+							.filter_list {
 								width: 75%;
 							}
 						}
 						.link {
 							position: absolute;
-							// top: 2.4rem;
 							right: 0;
-							bottom: 4.8rem;
+							bottom: 0;
 							font-size: 1.4rem;
 							line-height: 1.5;
 						}
@@ -406,27 +407,43 @@ export default {
 			.wrap {
 				margin-top: 4.2rem;
 				.filter {
-					position: fixed;
-					top: initial;
-					left: 0;
-					right: 0;
-					bottom: 0;
-					width: auto;
-					background-color: #EAE9DC;
+					position: sticky;
+					// position: fixed;
+					// top: initial;
+					// left: 0;
+					// right: 0;
+					// bottom: 0;
+					top: 0;
+					display: flex;
+					width: 100%;
+					// background-color: #EAE9DC;
+					background-color: #F5F4EA;
 					z-index: 2;
 					.heading {
-						display: none;
+						// display: none;
+						margin-bottom: 0;
+						width: 25%;
+						font-size: 1.2rem;
 					}
 					.filter_wrap {
 						position: relative;
-						button {
+						margin-left: auto;
+						margin-bottom: 1.6rem;
+						width: 75%;
+						.toggle {
 							display: inline-block;
 							line-height: 1;
 						}
 						ul {
+							top: 2.5rem;
+							height: 20rem;
 							li {
 								button {
+									padding: 1.2rem 1.6rem;
+									width: 20rem;
+									font-size: 1.2rem;
 									&:after {
+										right: 2rem;
 									}
 									&:hover {
 										background-color: #F5F4EA;
@@ -443,90 +460,79 @@ export default {
 							}
 						}
 					}
-					.area_wrap {
-						display: block;
-						width: 100vw;
-						overflow: scroll;
-					}
-					.area_list {
-						display: flex;
-						flex-wrap: nowrap;
-						margin-top: 0;
-						padding: 2rem;
-						width: fit-content;
-						white-space: nowrap;
-						border-top: none;
-						// overflow: scroll;
-						li {
-							display: inline-block;
-							margin-top: 0;
-							margin-left: 3rem;
-							// padding: 2rem 0;
-							button {
-							}
-							&.selected {
-								&:before {
-								}
-							}
-							&:first-of-type {
-								margin-left: 0;
-							}
-						}
-					}
+					// .area_wrap {
+					// 	display: block;
+					// 	width: 100vw;
+					// 	overflow: scroll;
+					// }
+					// .area_list {
+					// 	display: flex;
+					// 	flex-wrap: nowrap;
+					// 	margin-top: 0;
+					// 	padding: 2rem;
+					// 	width: fit-content;
+					// 	white-space: nowrap;
+					// 	border-top: none;
+					// 	// overflow: scroll;
+					// 	li {
+					// 		display: inline-block;
+					// 		margin-top: 0;
+					// 		margin-left: 3rem;
+					// 		// padding: 2rem 0;
+					// 		button {
+					// 		}
+					// 		&.selected {
+					// 			&:before {
+					// 			}
+					// 		}
+					// 		&:first-of-type {
+					// 			margin-left: 0;
+					// 		}
+					// 	}
+					// }
 				}
 				.list_wrap {
+					margin-top: 1rem;
+					width: 100%;
 					.list_header {
 						position: relative;
 						z-index: 1;
 						padding-bottom: 2.4rem;
+						.heading {
+							width: 25%;
+							font-size: 1.2rem;
+						}
 						.num {
 							display: inline-block;
 							line-height: 1;
 							// width: calc(19.5vw * 2);
+							width: 75%;
 						}
 					}
 					.dealer_list {
-						> li {
-							padding-bottom: 6rem;
-							.area_wrap {
-								margin-top: 1.6rem;
-								h3 {
-									margin-right: 0.6rem;
-									font-size: 1.8rem;
-								}
-								.num {
+						.dealer {
+							margin-bottom: 3.5rem;
+							padding: 1.6rem 0 3rem;
+							width: 100%;
+							.filter_wrap {
+								margin-top: 0.6rem;
+								* {
 									font-size: 1.2rem;
 								}
-								&.zero {
+								span {
+								}
+								.filter_list {
 								}
 							}
-							.dealer_list {
-								margin-top: 3.5rem;
-								> li {
-									padding: 1.6rem 0;
-									width: 100%;
-									.name {
-										width: calc(100% - ((100vw - 1.6rem * 9) / 8) * 2 - (1.6rem * 2));
-									}
-									.address {
-										margin-top: 0.4rem;
-										width: 100%;
-										width: calc(100% - ((100vw - 1.6rem * 9) / 8) * 2 - (1.6rem * 2));
-										order: 1;
-									}
-									.link_wrap {
-										margin-left: auto;
-										a {
-										}
-									}
-								}
+							.link {
+								font-size: 1.2rem;
 							}
-							&.zero {
-								.area_wrap {
-									h3 {
-									}
-								}
+							&:nth-of-type(n + 1) {
+								border-top: 1px solid rgba(39, 52, 63, 0.15);
 							}
+						}
+						.zero {
+							padding: 1.6rem;
 						}
 					}
 				}
