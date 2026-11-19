@@ -45,11 +45,11 @@
 					<p v-if="dealerList.length == 0" class="zero">No Dealers matched current filters.</p>
 					<div v-else class="dealer grid_vw_2" v-for="dealer in dealerList">
 						<span class="name">{{ dealer.title.rendered }}</span>
-						<div class="filter_wrap flex">
+						<div v-if="dealer.acf.brands_source.formatted_value" class="filter_wrap flex">
 							<span>Brands:</span>
 							<p class="filter_list">{{ dealer.acf.brands_source.formatted_value.map(data => data.post_title).join(' / ') }}</p>
 						</div>
-						<div class="filter_wrap flex">
+						<div v-if="dealer._embedded['wp:term']" class="filter_wrap flex">
 							<span>Area:</span>
 							<p class="filter_list">{{ dealer._embedded['wp:term'][0].map(term => term.name).join(' , ') }}</p>
 						</div>
@@ -72,7 +72,7 @@ export default {
 				app.$wordpress.getPosts('dealers', {
 					params: {
 						// 'posts_per_page': -1,
-						'per_page': 100,
+						'per_page': 200,
 						'_embed': true
 					}
 				}),
