@@ -50,7 +50,7 @@ export default {
 				app.$wordpress.getPosts('news', {
 					params: {
 						// 'posts_per_page': -1,
-						'per_page': 100,
+						// 'per_page': 500,
 						'category': 'press',
 						'_embed': true
 					}

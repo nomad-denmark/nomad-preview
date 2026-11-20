@@ -93,7 +93,6 @@ export default {
 				const tablewareList = res[0].data
 				const contractList = res[1].data
 				const promotionGiftList = res[2].data
-				console.log(res[0])
 				return { tablewareList, contractList, promotionGiftList }
 			})
 		} catch(error) {

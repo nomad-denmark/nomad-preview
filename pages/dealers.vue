@@ -72,7 +72,7 @@ export default {
 				app.$wordpress.getPosts('dealers', {
 					params: {
 						// 'posts_per_page': -1,
-						'per_page': 200,
+						// 'per_page': 250,
 						'_embed': true
 					}
 				}),
@@ -106,10 +106,10 @@ export default {
 	},
 	head() {
 		return {
-			title: 'Dealers | NOMAD',
+			title: 'Dealers | NOMAD Preview',
 			meta: [
-				{ hid: 'og:title', property: 'og:title', content: 'Dealers | NOMAD' },
-				{ hid: 'og:url', property: 'og:url', content: 'https://nomadinc.jp/dealers/' },
+				{ hid: 'og:title', property: 'og:title', content: 'Dealers | NOMAD Preview' },
+				{ hid: 'og:url', property: 'og:url', content: 'https://preview.nomadinc.jp/dealers/' },
 			],
 		}
 	},
@@ -125,8 +125,7 @@ export default {
 	},
 	mounted() {
 
-		this.brandFilter()
-		this.areaFilter()
+		this.filterCheck()
 
 	},
 	computed: {
@@ -163,29 +162,8 @@ export default {
 		},
 		selectBrand: function(brand) {
 			this.brandName = brand
-			this.brandFilter()
+			this.filterCheck()
 			this.brandListStatus = ''
-		},
-		brandFilter: function() {
-
-			if (this.brandName == 'All Brands') {
-
-				this.dealers = this.dealerData
-
-			} else {
-
-				this.dealers = this.dealerData.filter((dealer) => {
-					return this.dealerBrandCheck(dealer)
-				})
-
-			}
-			
-		},
-		dealerBrandCheck: function(dealer) {
-			const dealerBrandList = dealer.acf.brands_source.formatted_value.filter((data) => {
-				return data.post_title == this.brandName
-			})
-			return dealerBrandList.length != 0
 		},
 		showAreaList: function() {
 			this.areaListStatus = this.areaListStatus == 'show' ? '' : 'show'
@@ -202,29 +180,50 @@ export default {
 		},
 		selectArea: function(area) {
 			this.areaName = area
-			this.areaFilter()
+			this.filterCheck()
 			this.areaListStatus = ''
 		},
-		areaFilter: function() {
+		filterCheck: function() {
 
-			if (this.areaName == 'All Area') {
+			let filterList = this.dealerData
 
-				this.dealers = this.dealerData
+			if (this.brandName != 'All Brands') {
 
-			} else {
-
-				this.dealers = this.dealerData.filter((dealer) => {
-					return this.dealerAreaCheck(dealer)
+				filterList = filterList.filter((dealer) => {
+					const brands = dealer.acf.brands_source.formatted_value
+					if (brands) {
+						return this.dealerBrandCheck(brands)
+					}
+					return false
 				})
 
 			}
+			if (this.areaName != 'All Area') {
+
+				filterList = filterList.filter((dealer) => {
+					const area = dealer._embedded['wp:term']
+					if (area) {
+						return this.dealerAreaCheck(area)
+					}
+					return false
+				})
+
+			}
+
+			this.dealers = filterList
 			
 		},
-		dealerAreaCheck: function(dealer) {
-			const dealerAreaList = dealer._embedded['wp:term'][0].filter((data) => {
-				return data.name == this.areaName
+		dealerBrandCheck: function(brands) {
+			return brands.some((data) => {
+				return data.post_title == this.brandName
 			})
-			return dealerAreaList.length != 0
+		},
+		dealerAreaCheck: function(area) {
+			return area.some((term) => {
+				return term.some((data) => {
+					return data.name == this.areaName
+				})
+			})
 		},
 	}
 }
