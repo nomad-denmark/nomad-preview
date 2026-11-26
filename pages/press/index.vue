@@ -51,7 +51,7 @@ export default {
 					params: {
 						// 'posts_per_page': -1,
 						// 'per_page': 500,
-						'category': 'press',
+						'news_category': 'press',
 						'_embed': true
 					}
 				}),
