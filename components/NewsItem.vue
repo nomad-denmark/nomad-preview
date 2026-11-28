@@ -72,6 +72,7 @@ export default {
 			.introduction {
 				display: -webkit-box;
 				margin-top: auto;
+				width: 100%;
 				font-size: 1.4rem;
 				color: rgba(39, 52, 63, 0.6);
 				-webkit-line-clamp: 3;

@@ -205,6 +205,7 @@ export default {
 					}
 					.introduction {
 						margin-top: auto;
+						width: 100%;
 						line-height: 2;
 					}
 				}
